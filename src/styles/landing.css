@@ -21,11 +21,25 @@
 @import "./contact.css";
 @import "./footer.css";
 
-/* Smooth scroll nativo (CSS-only). Va en el elemento de scroll (el documento), no en
-   .aa-landing que no es el contenedor de scroll — única regla no scopeada, necesaria
-   para que los anchors #id hagan scroll suave sin JS. */
-html {
-  scroll-behavior: smooth;
+/* Smooth scroll con Lenis (JS, ver src/ui/smooth-scroll.ts). CSS oficial de Lenis: va en
+   <html> (Lenis le añade las clases .lenis*), fuera de .aa-landing — excepción necesaria,
+   igual que antes con scroll-behavior. Con reduced-motion Lenis no arranca y el scroll
+   queda nativo. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 /* Reset box-sizing: sin esto, width:100% + padding desbordan los contenedores. */

@@ -26,6 +26,7 @@ import { watchLayoutShifts } from './ui/scroll-refresh';
 import { initRevealGroup } from './ui/reveal-group';
 import { initCardHover } from './ui/card-hover';
 import { initAccordion } from './ui/accordion';
+import { initSmoothScroll, scrollToTarget } from './ui/smooth-scroll';
 
 // Scroll suave para anclas internas (#id) sin tocar CSS global del host.
 function initAnchorScroll(root: HTMLElement): void {
@@ -34,10 +35,10 @@ function initAnchorScroll(root: HTMLElement): void {
     if (!link) return;
     const id = link.getAttribute('href')?.slice(1);
     if (!id) return;
-    const target = root.querySelector(`#${CSS.escape(id)}`);
+    const target = root.querySelector<HTMLElement>(`#${CSS.escape(id)}`);
     if (!target) return;
     e.preventDefault();
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    scrollToTarget(target);
   });
 }
 
@@ -100,6 +101,7 @@ function boot(): void {
     mount.replaceChildren(root);
 
     // Fase de init: enganches de comportamiento/animación una vez montado el DOM.
+    initSmoothScroll(); // Lenis global (idempotente); antes del anchor scroll y los reveals.
     initAnchorScroll(root);
     initNavbar(root);
     initLoader(root);
