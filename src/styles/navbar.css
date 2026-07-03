@@ -33,7 +33,7 @@
 .aa-landing .aa-nav__logo-img {
   display: block;
   width: auto;
-  height: clamp(1.75rem, 3vw, 2.5rem);
+  height: clamp(1.05rem, 1.8vw, 1.5rem);
 }
 
 /* margin-left:auto ancla los links a la derecha aunque cambie el ancho del logo. */
