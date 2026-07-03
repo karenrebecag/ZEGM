@@ -29,6 +29,19 @@ sirve la carpeta `preview/` con `cleanUrls` (rutas sin `.html`).
    en el deploy vía `preview-build.mjs`; **nunca** se commitea al repo.
 4. Deploy. Cada push a `main` redeploya el preview.
 
-> El preview carga JS/CSS desde jsDelivr `@latest`, así que refleja el último release.
-> Para previsualizar un build local no publicado, cambia el `src` del script a
-> `/dist/landing.js` y agrega `dist/` al `outputDirectory`.
+## Pin del loader al tag (no @latest)
+
+El preview NO usa `@latest` (alias mutable que tarda en purgar su cache en jsDelivr). En su
+lugar apunta al **tag inmutable** del release, que se sirve fresco al instante.
+
+El proceso, antes de cada push que incluya cambios de bundle (`src/**`):
+
+1. `node pin-previews.mjs` — lee la versión actual de `loader.js`, predice el siguiente
+   patch (lo que el CI va a taggear) y reescribe el `src` del loader en los 4 HTML a
+   `@vX.Y.Z`.
+2. Commit + push. El CI crea ese tag y jsDelivr lo sirve inmutable; el preview ya apunta ahí.
+
+> Predice patch+1 porque el CI hace bump de patch. Correr solo cuando el push lleva cambios
+> de bundle (si es preview-only, no hay release nuevo y el tag predicho no existiría).
+> Para previsualizar un build local no publicado, cambia el `src` a `/dist/landing.js` y
+> agrega `dist/` al `outputDirectory` de `vercel.json`.
