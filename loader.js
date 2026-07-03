@@ -5,7 +5,7 @@
 // ⚠️ El path /gh/<owner>/<repo> debe coincidir EXACTO con el repo público real en GitHub.
 // Si el repo no se llama "ZEGM", cambiar `base` aquí y en src/index.ts antes de deploy.
 (function () {
-  var v = "1.0.3";
+  var v = "1.0.4";
   var base = "https://cdn.jsdelivr.net/gh/karenrebecag/ZEGM";
 
   var css = document.createElement("link");
