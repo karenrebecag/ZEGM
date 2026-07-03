@@ -10,6 +10,7 @@ import { AREAS } from './constants/content';
 import { initMotion } from './ui/motion';
 import { renderNavbar } from './sections/navbar';
 import { initNavbar } from './ui/navbar';
+import { initNavMobile } from './ui/nav-mobile';
 import { renderLoader } from './sections/loader';
 import { renderAbout } from './sections/about';
 import { renderQuote } from './sections/quote';
@@ -104,6 +105,7 @@ function boot(): void {
     initSmoothScroll(); // Lenis global (idempotente); antes del anchor scroll y los reveals.
     initAnchorScroll(root);
     initNavbar(root);
+    initNavMobile(root);
     initLoader(root);
     initMapbox(root, mapToken);
     initSplitText(root);
