@@ -3,8 +3,9 @@
 // bundle bloquea las de Webflow). La animación vive en initLoader (src/ui/loader.ts).
 import type { Lang } from '../core/types';
 import { el } from '../core/dom';
-import { LOADER } from '../constants/content';
+import { LOADER, navHref } from '../constants/content';
 import { GALLERY, STOCK, SPEAKERS, LOGOS, HERO } from '../constants/assets';
+import { renderButton } from '../ui/button';
 
 // Placeholders R2 hasta tener el arte final: 5 cartas del deck + fondo del hero.
 const CARDS = [
@@ -82,11 +83,19 @@ export function renderLoader(root: HTMLElement, lang: Lang): void {
     }),
   );
   const content = el('div', 'aa-loader-header__content');
+  // Intro (arriba): lead + CTA agrupados para que el space-between del content mantenga
+  // el bloque pegado arriba y la firma (mega) abajo, con el CTA justo bajo el lead.
+  const intro = el('div', 'aa-loader-header__intro');
   const lead = el('p', 'aa-loader-header__lead');
   lead.append(splitWords(t.lead));
+  const cta = renderButton(t.ctaAbout, {
+    variant: 'secondary',
+    href: navHref({ page: 'nosotros', anchor: 'nosotros' }, 'home'),
+  });
+  intro.append(lead, cta);
   const firm = el('p', 'aa-loader-header__firm');
   firm.append(splitWords(t.firm));
-  content.append(lead, firm);
+  content.append(intro, firm);
   header.append(content);
 
   root.append(container, header);

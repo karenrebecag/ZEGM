@@ -31,16 +31,19 @@ export const HERO: Record<Lang, HeroCopy> = {
 export interface LoaderCopy {
   lead: string;
   firm: string;
+  ctaAbout: string;
 }
 
 export const LOADER: Record<Lang, LoaderCopy> = {
   es: {
     lead: 'Defensa penal en delitos de cuello blanco, con experiencia en casos complejos a nivel nacional e internacional.',
     firm: 'Zinser, Esponda y Gómez Mont Abogados',
+    ctaAbout: 'Sobre nosotros',
   },
   en: {
     lead: 'White-collar criminal defense, with experience in complex cases at the national and international level.',
     firm: 'Zinser, Esponda y Gómez Mont Abogados',
+    ctaAbout: 'About us',
   },
 };
 

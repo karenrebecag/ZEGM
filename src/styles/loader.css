@@ -141,6 +141,14 @@
   color: #fff;
 }
 
+.aa-landing .aa-loader-header__intro {
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* el CTA toma su ancho de contenido, no estira */
+  gap: var(--aa-gap-m);
+}
+
 .aa-landing .aa-loader-header__lead {
   align-self: flex-start;
   max-width: 34ch;
