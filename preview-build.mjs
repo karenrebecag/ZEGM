@@ -1,22 +1,29 @@
 // Build de Vercel para el preview. Corre desde la raíz del repo (cwd). Inyecta el token
-// público de Mapbox (env MAPBOX_TOKEN) en /contacto SOLO en el deploy — nunca en el repo
-// (es un pk. público protegido por URL restriction en Mapbox). Sin env, deja el HTML
-// intacto (la página carga; el mapa degrada a vacío).
+// público de Mapbox (env MAPBOX_TOKEN) en TODOS los mounts SOLO en el deploy — nunca en el
+// repo (es un pk. público protegido por URL restriction en Mapbox).
 //
-// El pin del loader al tag inmutable NO se hace aquí: se predice y hornea antes del push
-// con pin-previews.mjs (ver preview/README.md).
+// En todos los mounts (no solo contacto.html) porque el navbar navega con ?page=contacto
+// sobre index.html: la página de contacto se puede renderizar desde cualquier HTML base,
+// así que el token debe estar en cada mount. El atributo solo se lee cuando hay mapa
+// (página contacto), en el resto es inofensivo.
+//
+// El pin del loader al tag inmutable se hace antes del push con pin-previews.mjs.
 import { readFileSync, writeFileSync } from 'node:fs';
+
+const PAGES = ['index', 'nosotros', 'areas', 'contacto'];
 
 const token = process.env.MAPBOX_TOKEN;
 if (!token) {
-  console.log('[preview] Sin MAPBOX_TOKEN: el mapa de /contacto quedará vacío.');
+  console.log('[preview] Sin MAPBOX_TOKEN: el mapa de contacto quedará vacío.');
   process.exit(0);
 }
 
-const path = 'preview/contacto.html';
-const html = readFileSync(path, 'utf8').replace(
-  'data-aa-page="contacto"',
-  `data-aa-page="contacto" data-aa-mapbox-token="${token}"`,
-);
-writeFileSync(path, html);
-console.log('[preview] Token de Mapbox inyectado en /contacto.');
+for (const page of PAGES) {
+  const path = `preview/${page}.html`;
+  const html = readFileSync(path, 'utf8').replace(
+    'data-aa-mount',
+    `data-aa-mount data-aa-mapbox-token="${token}"`,
+  );
+  writeFileSync(path, html);
+}
+console.log('[preview] Token de Mapbox inyectado en todos los mounts.');
