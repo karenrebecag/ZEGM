@@ -21,7 +21,7 @@ export function renderContact(root: HTMLElement, lang: Lang): void {
   const slot1 = el('div', 'aa-contact__slot');
   const heading = el('h1', 'aa-contact__heading aa-h-xl');
   heading.textContent = t.heading;
-  heading.setAttribute('data-aa-split', '');
+  heading.setAttribute('data-aa-split', 'mount');
   const sub = el('p', 'aa-contact__sub');
   sub.innerHTML = t.subheading; // copy estático de confianza (bold parcial)
   slot1.append(heading, sub);
