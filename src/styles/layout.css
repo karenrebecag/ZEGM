@@ -1,0 +1,13 @@
+/* Contenedor central y ritmo vertical de secciones. */
+
+.aa-landing .aa-container {
+  width: 100%;
+  max-width: var(--aa-container-max);
+  margin-inline: auto;
+  padding-inline: var(--aa-container-pad);
+}
+
+/* Todas las secciones comparten el padding vertical de strip. */
+.aa-landing section {
+  padding-block: var(--aa-padding-xxl);
+}

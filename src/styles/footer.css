@@ -1,0 +1,178 @@
+/* Footer dark (navy de fondo por el tema). Row superior con la marca centrada +
+   3 columnas. Container full-width (padding lateral, sin max-width). */
+
+.aa-landing .aa-footer {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Textura sobre el bg (padre) vía ::before: imagen webp ya diseñada con el look
+   correcto → cover, sin filter. El contenido va por encima (z-index). */
+.aa-landing .aa-footer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("https://pub-689bd7bf1ef94ab08b150945eac861e5.r2.dev/CleanShot%202026-07-03%20at%2011.56.03%402x_25dd1a731c55aa1c608eedb00eaa2d7cb7781d71369de9220fc412e8e85db038.webp");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.aa-landing .aa-footer__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--aa-gap-xxl);
+  /* max-width general (Relume container = 80rem = --aa-container-max), centrado.
+     El bg/textura (::before en .aa-footer) sigue a todo el ancho. */
+  width: 100%;
+  max-width: var(--aa-container-max);
+  margin-inline: auto;
+  padding: var(--aa-padding-xl) 3vw;
+}
+
+/* ─── Row superior: marca centrada ───────────────────────────────────────────── */
+.aa-landing .aa-footer__top {
+  text-align: center;
+}
+
+.aa-landing .aa-footer__brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--aa-gap-xxs);
+  margin: 0;
+}
+
+.aa-landing .aa-footer__brand-main {
+  font-family: var(--aa-font-display);
+  font-size: var(--aa-text-l);
+  font-weight: var(--aa-weight-regular);
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--aa-fg);
+}
+
+.aa-landing .aa-footer__brand-sub {
+  font-family: var(--aa-font-display);
+  font-size: var(--aa-text-m);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--aa-fg-muted);
+}
+
+/* ─── 3 columnas ─────────────────────────────────────────────────────────────── */
+/* Columnas top-aligned (Relume Footer 3: items-start) — sin space-between para que
+   queden parejas. */
+.aa-landing .aa-footer__cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--aa-gap-xl);
+  align-items: start;
+}
+
+/* Col contacto: título + dirección apilados arriba. */
+.aa-landing .aa-footer__col--contact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aa-gap-l);
+}
+
+.aa-landing .aa-footer__title {
+  margin: 0;
+  font-family: var(--aa-font);
+  font-size: var(--aa-text-m);
+  font-weight: var(--aa-weight-bold);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--aa-fg);
+}
+
+.aa-landing .aa-footer__address {
+  margin: 0;
+  font-family: var(--aa-font);
+  font-size: var(--aa-text-xs);
+  line-height: var(--aa-leading-normal);
+  color: var(--aa-fg-muted);
+}
+
+.aa-landing .aa-footer__address strong {
+  color: var(--aa-fg);
+  font-weight: var(--aa-weight-semibold);
+}
+
+.aa-landing .aa-footer__contact {
+  margin: 0;
+  font-family: var(--aa-font);
+  font-size: var(--aa-text-xs);
+  line-height: var(--aa-leading-loose);
+  color: var(--aa-fg-muted);
+}
+
+.aa-landing .aa-footer__contact a {
+  color: var(--aa-fg);
+  text-decoration: none;
+}
+
+.aa-landing .aa-footer__contact a:hover {
+  text-decoration: underline;
+}
+
+/* Col nav: back-to-top + links verticales. */
+.aa-landing .aa-footer__col--nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aa-gap-m);
+}
+
+.aa-landing .aa-footer__backtop {
+  font-family: var(--aa-font);
+  font-size: var(--aa-text-xxs);
+  font-weight: var(--aa-weight-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aa-fg-subtle);
+  text-decoration: none;
+  transition: color var(--aa-duration-xs) var(--aa-ease-out);
+}
+
+.aa-landing .aa-footer__backtop:hover {
+  color: var(--aa-fg);
+}
+
+.aa-landing .aa-footer__nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--aa-gap-s);
+}
+
+.aa-landing .aa-footer__nav-link {
+  font-family: var(--aa-font);
+  font-size: var(--aa-text-xxs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--aa-fg-muted);
+  text-decoration: none;
+  transition: color var(--aa-duration-xs) var(--aa-ease-out);
+}
+
+.aa-landing .aa-footer__nav-link:hover {
+  color: var(--aa-fg);
+}
+
+/* Mobile: columnas apiladas. */
+@media screen and (max-width: 767px) {
+  .aa-landing .aa-footer__cols {
+    grid-template-columns: 1fr;
+    gap: var(--aa-gap-l);
+  }
+
+  .aa-landing .aa-footer__col--contact {
+    gap: var(--aa-gap-l);
+  }
+}

@@ -1,0 +1,129 @@
+/* Servicios: heading full-width + grid 4 columnas (sin wrap en desktop).
+   Cards con min-height (comparten alto de fila por el stretch del grid). */
+
+.aa-landing .aa-services__heading {
+  margin-bottom: var(--aa-gap-l);
+}
+
+/* Servicios NO usa serif: override de la fuente display a sans en los headings
+   del strip (el statement, el cuerpo y el botón ya son sans). */
+.aa-landing .aa-services .aa-h-xl,
+.aa-landing .aa-services .aa-h-m {
+  font-family: var(--aa-font);
+}
+
+.aa-landing .aa-services__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--aa-gap-m);
+}
+
+.aa-landing .aa-services__card {
+  min-height: 32rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Slot 1 — imagen 2:3 anclada al fondo del card. */
+.aa-landing .aa-services__card--imgbottom {
+  justify-content: flex-end;
+}
+
+.aa-landing .aa-services__img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+}
+
+/* Slot 2 — texto arriba, CTA abajo (space-between). */
+.aa-landing .aa-services__card--text {
+  justify-content: space-between;
+  gap: var(--aa-gap-l);
+}
+
+.aa-landing .aa-services__text-top {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aa-gap-s);
+}
+
+/* Cuerpo (.aa-p-m): las frases en <strong> pasan a navy pleno. */
+.aa-landing .aa-services__body strong {
+  color: var(--aa-fg);
+  font-weight: var(--aa-weight-semibold);
+}
+
+/* Slot 4 — statement (heading): navy pleno, no muted; bold parcial destaca keywords. */
+.aa-landing .aa-services__statement {
+  margin: 0;
+  font-family: var(--aa-font);
+  font-size: var(--aa-text-m);
+  font-weight: var(--aa-weight-regular);
+  line-height: var(--aa-leading-snug);
+  letter-spacing: -0.01em;
+  color: var(--aa-fg);
+}
+
+.aa-landing .aa-services__statement strong {
+  font-weight: var(--aa-weight-semibold);
+}
+
+/* El CTA (renderButton) no se estira en la columna flex. */
+.aa-landing .aa-services__card--text .aa-btn {
+  align-self: flex-start;
+}
+
+/* Todos los textos DENTRO de las cards al mismo tamaño: el de cuerpo (--aa-text-s,
+   el de .aa-p-l). Se distinguen por peso/color, no por tamaño. El heading de
+   sección (fuera de las cards) conserva su tamaño grande. */
+.aa-landing .aa-services__card .aa-h-m,
+.aa-landing .aa-services__card .aa-p-l,
+.aa-landing .aa-services__statement {
+  font-size: var(--aa-text-s);
+}
+
+/* Slot 3 — imagen de fondo (cover) que llena el card. */
+.aa-landing .aa-services__card--bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.aa-landing .aa-services__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Slot 4 — imagen 2:3 arriba + texto debajo. */
+.aa-landing .aa-services__card--imgtext {
+  gap: var(--aa-gap-m);
+}
+
+/* Wrap en viewports pequeños: 2 columnas y proporción cuadrada en todas las cards.
+   Las imágenes 2:3 pasan a llenar el cuadrado (cover) en lugar de mantener el ratio. */
+@media screen and (max-width: 991px) {
+  .aa-landing .aa-services__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .aa-landing .aa-services__card {
+    min-height: 0;
+    aspect-ratio: 1;
+    overflow: hidden;
+  }
+
+  .aa-landing .aa-services__img {
+    aspect-ratio: auto;
+    flex: 1;
+    min-height: 0;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .aa-landing .aa-services__grid {
+    grid-template-columns: 1fr;
+  }
+}

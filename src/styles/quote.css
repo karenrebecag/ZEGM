@@ -1,0 +1,53 @@
+/* Quote full-width (Relume Testimonial 1). Texto centrado, bold parcial vía <strong>,
+   atribución en mono uppercase. */
+
+/* Tinte de fondo: background-IMAGE (no -color) porque una sección light sobre root
+   light se pinta transparent; el linear-gradient sí se ve (gotcha de section-theme). */
+.aa-landing .aa-quote {
+  /* Margen lateral 1vw, misma estrategia de marco que el hero (.aa-loader-header). */
+  margin-inline: 1vw;
+  background-image: linear-gradient(var(--aa-bg-subtle), var(--aa-bg-subtle));
+}
+
+.aa-landing .aa-quote__inner {
+  max-width: 64rem;
+  text-align: center;
+}
+
+.aa-landing .aa-quote__text {
+  margin: 0;
+  font-family: var(--aa-font);
+  font-size: var(--aa-text-ml);
+  font-weight: var(--aa-weight-regular);
+  line-height: var(--aa-leading-snug);
+  color: var(--aa-fg);
+  text-wrap: balance;
+}
+
+.aa-landing .aa-quote__text strong {
+  font-weight: var(--aa-weight-bold);
+}
+
+.aa-landing .aa-quote__cite {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aa-gap-xxs);
+  margin-top: var(--aa-gap-l);
+}
+
+.aa-landing .aa-quote__cite-name,
+.aa-landing .aa-quote__cite-role {
+  font-family: var(--aa-font-mono);
+  font-size: var(--aa-text-xxs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.aa-landing .aa-quote__cite-name {
+  font-weight: var(--aa-weight-semibold);
+  color: var(--aa-fg-muted);
+}
+
+.aa-landing .aa-quote__cite-role {
+  color: var(--aa-fg-subtle);
+}

@@ -1,0 +1,181 @@
+/* Loader "Dropping Cards" (Osmo) + cabecera hero. Clases renombradas a .aa-loader__*
+   y scopeadas bajo .aa-landing. Medidas em/vw/svh se conservan (art-directed). */
+
+.aa-landing .aa-loader {
+  z-index: 100;
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+}
+
+/* Bloquea el scroll mientras el overlay está activo (initLoader quita is--active al terminar). */
+.aa-landing:has(.aa-loader.is--active) {
+  overflow: clip;
+}
+
+.aa-landing .aa-loader__screen {
+  pointer-events: auto;
+  color: #fff;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: clip;
+}
+
+.aa-landing .aa-loader__bg {
+  background-color: var(--aa-navy-900);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  /* Promoción a capa de compositor: GSAP la desliza con yPercent; sin esto el navegador
+     repinta el bloque completo cada frame. initLoader lo libera (auto) al terminar. */
+  will-change: transform;
+}
+
+.aa-landing .aa-loader__logo {
+  width: clamp(6em, 7.5vw, 10em);
+  position: absolute;
+  bottom: 2em;
+}
+
+.aa-landing .aa-loader__logo-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  /* Wordmark navy → blanco sobre el fondo oscuro del loader. */
+  filter: brightness(0) invert(1);
+}
+
+.aa-landing .aa-loader__list {
+  gap: 0.5em;
+  opacity: 0;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: relative;
+}
+
+.aa-landing .aa-loader__card {
+  aspect-ratio: 3 / 4;
+  border-radius: 0.5em;
+  width: 10em;
+  font-size: max(1.5vw, 2em);
+  position: absolute;
+  /* Cada carta anima scale/rotate/y en el deck y en la caída: capa GPU para no repintar
+     la foto en cada frame. initLoader lo libera (auto) al terminar el overlay. */
+  will-change: transform;
+}
+
+.aa-landing .aa-loader__cover {
+  object-fit: cover;
+  border-radius: inherit;
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.aa-landing .aa-loader__cover.is--bg {
+  height: 130%;
+  border-radius: 0;
+  /* Parallax de scroll continuo (initLoader): capa GPU permanente para el recorrido. */
+  will-change: transform;
+}
+
+/* Padding equitativo en la SECCIÓN (patrón Relume Header 5: px-[5%]); la imagen
+   full-bleed ignora el padding (absolute inset-0), solo se insetea el contenido. */
+.aa-landing .aa-loader-header {
+  /* margin = marco del hero (encoge imagen incluida); padding = inset del texto.
+     min-height descuenta el margin vertical (5vw + 2vw) para caber en el viewport. */
+  min-height: calc(100svh - 2vw);
+  display: flex;
+  margin: 1vw;
+  /* padding-top 10vw: baja el contenido para que libre el navbar fijo. */
+  padding: 10vw 2vw 2vw 2vw;
+  position: relative;
+  overflow: clip;
+  background-color: #ffffff;
+}
+
+/* Mobile: el navbar fijo ocupa proporcionalmente más alto → más padding-top para que
+   el lead no quede tapado (y no se lea), + más bottom para separar la firma del borde. */
+@media screen and (max-width: 767px) {
+  .aa-landing .aa-loader-header {
+    padding: 30vw 2vw 14vw;
+  }
+}
+
+/* Scrim (Relume: bg-neutral-darkest/50): oscurece arriba/abajo donde va el texto y
+   deja ver la foto al centro. Sube el contraste del blanco sin apagar la imagen. */
+.aa-landing .aa-loader-header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(11, 26, 37, 0.55) 0%,
+    rgba(11, 26, 37, 0.12) 35%,
+    rgba(11, 26, 37, 0.12) 62%,
+    rgba(11, 26, 37, 0.6) 100%
+  );
+}
+
+/* Lead arriba-izquierda y firma abajo-derecha (space-between). */
+.aa-landing .aa-loader-header__content {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--aa-gap-l);
+  color: #fff;
+}
+
+.aa-landing .aa-loader-header__lead {
+  align-self: flex-start;
+  max-width: 34ch;
+  font-family: var(--aa-font);
+  font-size: var(--aa-text-m);
+  font-weight: var(--aa-weight-regular);
+  line-height: 1.3;
+  text-wrap: balance;
+}
+
+.aa-landing .aa-loader-header__firm {
+  align-self: flex-end;
+  max-width: 14em;
+  font-family: var(--aa-font-display);
+  font-size: var(--aa-text-ml);
+  font-weight: var(--aa-weight-regular);
+  line-height: 1.12;
+  text-align: right;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+/* Clip por palabra para el reveal del lead/firma (initLoader las anima en cascada,
+   mismo timeline que la caída de cartas). padding-bottom + margin-bottom negativo
+   iguales: le dan aire a las descendentes (g, j, p, q, y) para que no se corten contra
+   el borde del mask, sin mover el layout de abajo (la firma va en mayúsculas, pero el
+   lead sí tiene descendentes). */
+.aa-landing .aa-loader-header__word {
+  display: inline-block;
+  overflow: clip;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+
+.aa-landing .aa-loader-header__word-inner {
+  display: inline-block;
+  will-change: transform;
+}

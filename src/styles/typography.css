@@ -1,0 +1,37 @@
+/* Capa tipográfica SEMÁNTICA. Usar estas clases, NUNCA font-size: var(--aa-text-*) crudo
+   (rompe la jerarquía y pierde la fuente display). Títulos → .aa-h-*; cuerpo → .aa-p-*. */
+
+.aa-landing .aa-h-xxl,
+.aa-landing .aa-h-xl,
+.aa-landing .aa-h-l,
+.aa-landing .aa-h-m {
+  font-family: var(--aa-font-display);
+  font-weight: var(--aa-weight-bold);
+  line-height: var(--aa-leading-tight);
+  letter-spacing: -0.02em;
+}
+
+.aa-landing .aa-h-xxl { font-size: var(--aa-text-xxl); }
+.aa-landing .aa-h-xl  { font-size: var(--aa-text-xl); }
+.aa-landing .aa-h-l   { font-size: var(--aa-text-l); }
+.aa-landing .aa-h-m   { font-size: var(--aa-text-m); line-height: var(--aa-leading-snug); }
+
+.aa-landing .aa-p-l,
+.aa-landing .aa-p-m {
+  font-family: var(--aa-font);
+  line-height: var(--aa-leading-normal);
+  color: var(--aa-fg-muted);
+}
+.aa-landing .aa-p-l { font-size: var(--aa-text-s); }
+.aa-landing .aa-p-m { font-size: var(--aa-text-xs); }
+
+/* Eyebrow / pill — etiqueta mono en mayúsculas sobre secciones. */
+.aa-landing .aa-eyebrow {
+  display: inline-block;
+  font-family: var(--aa-font-mono);
+  font-size: var(--aa-text-xxs);
+  font-weight: var(--aa-weight-medium);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--aa-accent);
+}

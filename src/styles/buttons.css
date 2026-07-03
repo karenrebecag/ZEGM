@@ -1,0 +1,160 @@
+/* Botones animados (portado de Osmo "Button 041"), scopeados .aa-* y con la paleta
+   ZEGM. El hover anima char por char (split hecho en render, --char por letra) → 100%
+   CSS. Variantes: --primary (navy fill) · --secondary (outline) · --tertiary (soft). */
+
+.aa-landing .aa-btn {
+  /* Tokens del botón (los variants remapean color/bg). */
+  --aa-btn-color: #ffffff;
+  --aa-btn-bg: var(--aa-navy-900);
+  --aa-btn-color-focus: var(--aa-navy-900);
+  --aa-btn-pad: 0.85em 1.35em;
+  --aa-btn-radius: 0;
+  --aa-btn-focus-inset: -0.125em;
+  --aa-btn-click-scale: 0.955 0.925;
+  --aa-btn-ease-click: cubic-bezier(0.4, 0, 0.2, 1);
+  --aa-btn-ease-hover: linear(0, 0.5737 7.6%, 0.8382 11.87%, 0.9463 14.19%, 1.0292 16.54%, 1.0886 18.97%, 1.1258 21.53%, 1.137 22.97%, 1.1424 24.48%, 1.1423 26.1%, 1.1366 27.86%, 1.1165 31.01%, 1.0507 38.62%, 1.0219 42.57%, 0.9995 46.99%, 0.9872 51.63%, 0.9842 58.77%, 1.0011 81.26%, 1);
+  --aa-btn-ease-smooth: cubic-bezier(0.32, 0.72, 0, 1);
+  --aa-btn-ease-soft-overshoot: cubic-bezier(0.59, 1, 0.88, 1.01);
+  --aa-btn-ease-bounce: cubic-bezier(0.34, 2.27, 0.64, 1);
+  --aa-btn-ease-focus: cubic-bezier(0.32, 0.72, 0, 1);
+
+  color: var(--aa-btn-color);
+  font-family: var(--aa-font);
+  font-size: var(--aa-text-xs);
+  font-weight: var(--aa-weight-semibold);
+  letter-spacing: 0.01em;
+  -webkit-user-select: none;
+  user-select: none;
+  background-color: transparent;
+  outline-style: none;
+  padding: 0;
+  line-height: 1;
+  text-decoration: none;
+  display: inline-grid;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+  transition: scale 0.15s var(--aa-btn-ease-click);
+}
+
+/* Ring de foco accesible (:focus-visible). */
+.aa-landing .aa-btn::after {
+  content: '';
+  display: block;
+  position: absolute;
+  inset: var(--aa-btn-focus-inset);
+  border-radius: var(--aa-btn-radius);
+  transition: box-shadow 0.2s var(--aa-btn-ease-focus);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.aa-landing .aa-btn:focus-visible::after {
+  box-shadow: 0 0 0 0.125em var(--aa-btn-color-focus);
+}
+
+.aa-landing .aa-btn:active {
+  scale: var(--aa-btn-click-scale);
+}
+
+.aa-landing .aa-btn__bg {
+  background-color: var(--aa-btn-bg);
+  border-radius: var(--aa-btn-radius);
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  transition: scale 0.15s var(--aa-btn-ease-soft-overshoot),
+              transform 0.15s var(--aa-btn-ease-soft-overshoot);
+}
+
+.aa-landing .aa-btn__inner {
+  width: 100%;
+  height: 100%;
+  padding: var(--aa-btn-pad);
+  z-index: 1;
+  grid-area: 1 / 1;
+  display: grid;
+}
+
+.aa-landing .aa-btn__text {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.aa-landing .aa-btn__char {
+  display: inline-block;
+  will-change: filter;
+}
+
+.aa-landing .aa-btn__text.is--default .aa-btn__char {
+  transition: translate 0.82s var(--aa-btn-ease-hover), scale 0.82s var(--aa-btn-ease-hover),
+              opacity 0.15s ease-out, filter 0.15s ease-out;
+}
+
+/* La capa hover arranca oculta (blur + desplazada). */
+.aa-landing .aa-btn__text.is--hover .aa-btn__char {
+  opacity: 0;
+  filter: blur(0.2em);
+  translate: -1em 0 0;
+  scale: 0.5;
+  transition: translate 0.45s var(--aa-btn-ease-smooth), scale 0.45s var(--aa-btn-ease-smooth),
+              opacity 0.15s 0.05s ease-out, filter 0.15s 0.05s ease-out;
+}
+
+/* ─── Variantes de paleta ────────────────────────────────────────────────────── */
+.aa-landing .aa-btn--primary {
+  --aa-btn-color: #ffffff;
+  --aa-btn-bg: var(--aa-navy-900);
+  --aa-btn-color-focus: var(--aa-navy-900);
+}
+
+.aa-landing .aa-btn--secondary {
+  --aa-btn-color: var(--aa-navy-900);
+  --aa-btn-bg: #ffffff;
+  --aa-btn-color-focus: var(--aa-navy-900);
+}
+/* Outline navy para diferenciar el secundario sobre fondos claros. */
+.aa-landing .aa-btn--secondary .aa-btn__bg {
+  box-shadow: inset 0 0 0 1px var(--aa-navy-900);
+}
+
+.aa-landing .aa-btn--tertiary {
+  --aa-btn-color: var(--aa-navy-900);
+  --aa-btn-bg: var(--aa-navy-50);
+  --aa-btn-color-focus: var(--aa-navy-900);
+}
+
+/* ─── Hover (solo con puntero fino y sin reduced-motion) ─────────────────────── */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .aa-landing .aa-btn:is(:hover, :focus-visible) .aa-btn__bg {
+    scale: 0.955 0.925;
+    transform: scale(1.0471204188, 1.0810810811);
+    transition: scale 0.15s var(--aa-btn-ease-soft-overshoot),
+                transform 0.35s 0.15s var(--aa-btn-ease-bounce);
+  }
+
+  .aa-landing .aa-btn:is(:hover, :focus-visible) .aa-btn__text.is--default .aa-btn__char {
+    opacity: 0;
+    filter: blur(5px);
+    translate: 0.5em 0 0;
+    scale: 0.5;
+    transition: translate 0.45s calc((var(--char) - 1) * 0.018s) var(--aa-btn-ease-smooth),
+                scale 0.45s calc((var(--char) - 1) * 0.018s) var(--aa-btn-ease-smooth),
+                opacity 0.15s calc((var(--char) - 1) * 0.018s + 0.05s) ease-out,
+                filter 0.15s calc((var(--char) - 1) * 0.018s + 0.05s) ease-out;
+  }
+
+  .aa-landing .aa-btn:is(:hover, :focus-visible) .aa-btn__text.is--hover .aa-btn__char {
+    opacity: 1;
+    filter: blur(0);
+    translate: 0 0 0;
+    scale: 1;
+    transition: translate 0.82s calc((var(--char) - 1) * 0.018s + 0.05s) var(--aa-btn-ease-hover),
+                scale 0.82s calc((var(--char) - 1) * 0.018s + 0.05s) var(--aa-btn-ease-hover),
+                opacity 0.15s calc((var(--char) - 1) * 0.018s + 0.05s) ease-out,
+                filter 0.15s calc((var(--char) - 1) * 0.018s + 0.05s) ease-out;
+  }
+}

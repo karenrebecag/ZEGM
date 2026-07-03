@@ -1,0 +1,118 @@
+/* Página de contacto. Grid 2 columnas × 2 filas (4 slots): intro arriba-izquierda,
+   datos abajo-derecha, 2 y 3 vacíos. Mapa full-width en dark debajo. */
+
+/* Controlamos el padding en el inner (el default de section pondría padding-bottom
+   antes del mapa). padding-top extra = clearance del navbar fijo. */
+.aa-landing .aa-contact {
+  padding-block: 0;
+}
+
+.aa-landing .aa-contact__inner {
+  padding-top: calc(var(--aa-padding-xxl) + 6vw);
+  padding-bottom: var(--aa-padding-xxl);
+}
+
+/* Mismo lenguaje que la home: sans, sin serif. */
+.aa-landing .aa-contact .aa-h-xl {
+  font-family: var(--aa-font);
+}
+
+.aa-landing .aa-contact__heading {
+  text-transform: uppercase;
+  margin-bottom: var(--aa-gap-m);
+}
+
+.aa-landing .aa-contact__sub {
+  max-width: 34ch;
+  font-family: var(--aa-font);
+  font-size: var(--aa-text-xs);
+  line-height: var(--aa-leading-normal);
+  color: var(--aa-fg-muted);
+}
+
+.aa-landing .aa-contact__sub strong {
+  color: var(--aa-fg);
+  font-weight: var(--aa-weight-semibold);
+}
+
+.aa-landing .aa-contact__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr 1fr;
+  gap: var(--aa-gap-xxl);
+  min-height: 55vh;
+}
+
+.aa-landing .aa-contact__details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aa-gap-l);
+  align-self: start;
+}
+
+.aa-landing .aa-contact__addr,
+.aa-landing .aa-contact__label,
+.aa-landing .aa-contact__value {
+  margin: 0;
+  font-family: var(--aa-font);
+  font-size: var(--aa-text-xs);
+  line-height: var(--aa-leading-normal);
+}
+
+.aa-landing .aa-contact__addr {
+  color: var(--aa-fg);
+}
+
+.aa-landing .aa-contact__addr strong {
+  font-weight: var(--aa-weight-bold);
+}
+
+.aa-landing .aa-contact__block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aa-gap-xs);
+}
+
+.aa-landing .aa-contact__label {
+  color: var(--aa-fg-muted);
+}
+
+.aa-landing .aa-contact__value {
+  color: var(--aa-fg);
+  font-weight: var(--aa-weight-bold);
+}
+
+.aa-landing .aa-contact__value a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.aa-landing .aa-contact__value a:hover {
+  text-decoration: underline;
+}
+
+/* Mapa Mapbox full-width. El contenedor necesita altura para que el canvas renderice;
+   el estilo/tinte navy se controla desde Mapbox (dark-v11 por defecto o un estilo
+   propio de Mapbox Studio). */
+.aa-landing .aa-contact__map {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  min-height: 320px;
+  background-color: var(--aa-navy-950);
+  overflow: hidden;
+}
+
+/* Mobile: 1 columna; más clearance del navbar arriba. */
+@media screen and (max-width: 767px) {
+  .aa-landing .aa-contact__grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    gap: var(--aa-gap-l);
+    min-height: 0;
+  }
+
+  .aa-landing .aa-contact__inner {
+    padding-top: calc(var(--aa-padding-xxl) + 18vw);
+  }
+}

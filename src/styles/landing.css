@@ -1,0 +1,76 @@
+/* ZEGM · landing design system (token-based, scopeado a .aa-landing). */
+/* esbuild inlinea estos @import en un solo dist/landing.css.            */
+/* Toda la especificidad vive bajo .aa-landing para no colisionar con el host. */
+
+@import "./fonts.css";
+@import "./tokens.css";
+@import "./typography.css";
+@import "./layout.css";
+@import "./components.css";
+@import "./buttons.css";
+@import "./section-theme.css";
+@import "./hero.css";
+@import "./loader.css";
+@import "./page-heading.css";
+@import "./navbar.css";
+@import "./about.css";
+@import "./nosotros-rows.css";
+@import "./quote.css";
+@import "./services.css";
+@import "./practice-areas.css";
+@import "./contact.css";
+@import "./footer.css";
+
+/* Smooth scroll nativo (CSS-only). Va en el elemento de scroll (el documento), no en
+   .aa-landing que no es el contenedor de scroll — única regla no scopeada, necesaria
+   para que los anchors #id hagan scroll suave sin JS. */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Reset box-sizing: sin esto, width:100% + padding desbordan los contenedores. */
+.aa-landing *,
+.aa-landing *::before,
+.aa-landing *::after {
+  box-sizing: border-box;
+}
+
+/* ─── Root wrapper ────────────────────────────────────────────────────────────── */
+.aa-landing {
+  font-family: var(--aa-font);
+  font-size: var(--aa-size-font);
+  color: var(--aa-fg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Contiene overflow horizontal sin crear scroll vertical. clip = no scroll container. */
+  overflow-x: clip;
+  /* Stacking context propio: ancla el z-index:-1 de la capa de fondo fija (::before). */
+  isolation: isolate;
+}
+
+/* Capa de fondo FIJA: pinta el --aa-bg del tema raíz una sola vez (no repinta al
+   scrollear). Las secciones del mismo tema se vuelven transparentes y la dejan ver;
+   las del tema opuesto pintan su color opaco encima. */
+.aa-landing::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--aa-bg);
+  pointer-events: none;
+}
+
+/* Reset de márgenes UA en texto: el ritmo vertical lo controlan los tokens (gap). */
+.aa-landing :where(h1, h2, h3, h4, h5, h6, p) {
+  margin: 0;
+}
+
+/* ─── Utilities ───────────────────────────────────────────────────────────────── */
+.aa-landing .aa-text-center  { text-align: center; }
+.aa-landing .aa-text-balance { text-wrap: balance; }
+.aa-landing .aa-text-accent  { color: var(--aa-accent); }
+.aa-landing .aa-flex-col     { display: flex; flex-direction: column; }
+.aa-landing .aa-flex-center  { display: flex; align-items: center; justify-content: center; }
+.aa-landing .aa-gap-s        { gap: var(--aa-gap-s); }
+.aa-landing .aa-gap-m        { gap: var(--aa-gap-m); }
+.aa-landing .aa-gap-l        { gap: var(--aa-gap-l); }

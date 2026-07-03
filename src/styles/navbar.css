@@ -1,0 +1,91 @@
+/* Navbar (Relume Navbar 1). Logo navy izquierda + links uppercase a la derecha.
+   Barra sólida sobre fondo claro del root; navy de marca en logo y links. */
+
+.aa-landing .aa-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--aa-gap-l);
+  width: 100%;
+  padding: 1.5rem 3vw;
+  /* La sección light sobre root light se pinta transparent (overdraw opt, especificidad
+     0,3,0). Un fixed navbar necesita fondo opaco → se pinta con background-image
+     (el transparent no lo pisa). */
+  background-image: linear-gradient(#ffffff, #ffffff);
+  transition: transform var(--aa-duration-s) var(--aa-ease);
+}
+
+/* Auto-hide: oculto al hacer scroll down fuera del top (initNavbar togglea la clase). */
+.aa-landing .aa-nav.is--hidden {
+  transform: translateY(-100%);
+}
+
+.aa-landing .aa-nav__logo {
+  display: block;
+  flex: none;
+}
+
+.aa-landing .aa-nav__logo-img {
+  display: block;
+  width: auto;
+  height: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+/* margin-left:auto ancla los links a la derecha aunque cambie el ancho del logo. */
+.aa-landing .aa-nav__links {
+  display: flex;
+  align-items: center;
+  gap: var(--aa-gap-l);
+  margin-left: auto;
+}
+
+.aa-landing .aa-nav__link {
+  color: var(--aa-navy-900);
+  font-family: var(--aa-font);
+  font-size: var(--aa-text-xs);
+  font-weight: var(--aa-weight-semibold);
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--aa-duration-xs) var(--aa-ease-out);
+}
+
+/* Subrayado animado (Osmo "Underline Link"): crece desde la izquierda en hover y
+   se retrae hacia la derecha al salir. currentColor = navy del link. 100% CSS. */
+.aa-landing [data-underline-link] {
+  position: relative;
+}
+
+.aa-landing [data-underline-link]::before {
+  content: '';
+  position: absolute;
+  bottom: -0.4em;
+  left: 0;
+  width: 100%;
+  height: 0.0625em;
+  background-color: currentColor;
+  transform: scaleX(0) rotate(0.001deg);
+  transform-origin: right;
+  transition: transform 0.735s var(--aa-ease);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .aa-landing [data-underline-link]:hover::before {
+    transform-origin: left;
+    transform: scaleX(1) rotate(0.001deg);
+  }
+}
+
+/* Mobile (breakpoint de Relume, <992px): sin navlinks, solo el logo. */
+@media screen and (max-width: 991px) {
+  .aa-landing .aa-nav__links {
+    display: none;
+  }
+}

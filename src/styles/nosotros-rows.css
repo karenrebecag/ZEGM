@@ -1,0 +1,165 @@
+/* Cuerpo de "Nosotros": 3 strips apiladas, cada una con sub-columnas. El inner se
+   limita al mismo max-width que el resto de strips Relume (--aa-container-max) y
+   aporta el padding-inline; las columnas no repiten padding horizontal. */
+
+.aa-landing .aa-nosotros-rows__inner {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--aa-container-max);
+  margin-inline: auto;
+  padding-inline: var(--aa-container-pad);
+  padding-top: 0;
+  padding-bottom: 0;
+  min-height: 100vh;
+}
+
+/* gap sobre cada strip: separa el par de columnas (col A / col B) dentro de la row.
+   padding-block: aire arriba/abajo del contenido dentro de cada strip. */
+.aa-landing .aa-nosotros-row {
+  display: flex;
+  width: 100%;
+  gap: 3vh;
+  padding-top: 4vh;
+  padding-bottom: 4vh;
+  overflow: clip;
+}
+
+.aa-landing .aa-nosotros-row:nth-child(1) {
+  height: 33vh;
+}
+
+/* Row 2: contenido denso (texto + CTA + 2 imágenes) — 33vh como piso, no como tope,
+   para no recortar con overflow:clip. */
+.aa-landing .aa-nosotros-row:nth-child(2) {
+  min-height: 33vh;
+}
+
+/* Row 3: dos párrafos + grid de imágenes — 44vh como piso, no como tope. */
+.aa-landing .aa-nosotros-row:nth-child(3) {
+  min-height: 44vh;
+}
+
+.aa-landing .aa-nosotros-row__col {
+  flex: 0 0 50%;
+  max-width: 50%;
+  padding-block: var(--aa-padding-l);
+}
+
+/* Col de imagen: full-bleed, sin padding — la columna de texto conserva el padding base. */
+.aa-landing .aa-nosotros-row__col--img {
+  padding: 0;
+}
+
+.aa-landing .aa-nosotros-row__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.aa-landing .aa-nosotros-row__col--text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--aa-gap-m);
+}
+
+/* Sin serif en toda la página: el heading usa .aa-h-m (fuente display/serif) → forzamos
+   la sans base, conservando peso/tracking de .aa-h-m. */
+.aa-landing .aa-nosotros-row__heading {
+  font-family: var(--aa-font);
+  text-transform: uppercase;
+}
+
+/* ─── Row 2 (tres slots lado a lado) ────────────────────────────────────────────── */
+/* Rompe el 50/50 base: 40% / 20% / 40% (solo desktop; en mobile apilan al 100%). */
+@media screen and (min-width: 768px) {
+  .aa-landing .aa-nosotros-row--triple .aa-nosotros-row__col--copy,
+  .aa-landing .aa-nosotros-row--triple .aa-nosotros-row__col--media {
+    flex: 1 1 40%;
+    max-width: 40%;
+  }
+  .aa-landing .aa-nosotros-row--triple .aa-nosotros-row__col--img {
+    flex: 0 0 20%;
+    max-width: 20%;
+  }
+}
+
+/* Slot 1: texto arriba, CTA abajo (space-between). */
+.aa-landing .aa-nosotros-row__col--copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--aa-gap-l);
+}
+
+.aa-landing .aa-nosotros-row__textgroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aa-gap-s);
+}
+
+/* Slot 3: imagen (flex-fill) + quote debajo. */
+.aa-landing .aa-nosotros-row__col--media {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.aa-landing .aa-nosotros-row__col--media .aa-nosotros-row__img {
+  flex: 1;
+  min-height: 0;
+}
+
+.aa-landing .aa-nosotros-row__quote {
+  padding-block: var(--aa-padding-l);
+}
+
+/* CTA con ancho autocontenido (no estira al ancho de la columna flex). */
+.aa-landing .aa-nosotros-row__col--copy .aa-btn {
+  align-self: flex-start;
+}
+
+/* ─── Row 3 ─────────────────────────────────────────────────────────────────────── */
+/* Slot 2: párrafos arriba, grid de imágenes abajo (space-between los separa). */
+.aa-landing .aa-nosotros-row__col--body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--aa-gap-l);
+}
+
+.aa-landing .aa-nosotros-row__imggrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3vh;
+}
+
+/* Cada imagen autocontenida por su celda (aspect-ratio fija el alto). */
+.aa-landing .aa-nosotros-row__imgcell {
+  aspect-ratio: 4 / 3;
+  overflow: clip;
+}
+
+/* Mobile: col A/col B apiladas — el alto fijo del row (pensado para 2 columnas lado a
+   lado) no alcanza para contenido apilado, se deja crecer con el contenido. */
+@media screen and (max-width: 767px) {
+  .aa-landing .aa-nosotros-row {
+    flex-direction: column;
+    height: auto;
+  }
+  .aa-landing .aa-nosotros-row__col {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+  /* height:100% / flex:1 de las imágenes no tienen de qué heredar con la col en
+     height:auto — se les fija un alto explícito en mobile. */
+  .aa-landing .aa-nosotros-row__col--img {
+    height: 60vw;
+  }
+  .aa-landing .aa-nosotros-row__col--media .aa-nosotros-row__img {
+    flex: none;
+    height: 60vw;
+  }
+}

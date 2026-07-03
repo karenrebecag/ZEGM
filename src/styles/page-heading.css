@@ -1,0 +1,56 @@
+/* Heading de página secundaria: mismo marco que .aa-loader-header (margin 1vw, padding
+   que libera el navbar fijo), pero sin imagen — fondo propio (--aa-navy-hero), no el
+   --aa-bg genérico del sistema de tema. background-image (no -color): el gotcha de
+   overdraw de section-theme.css pinta background-color por especificidad; usar
+   background-image es lo documentado para pisarlo sin pelear cascada. */
+.aa-landing .aa-page-heading {
+  min-height: 50vh;
+  max-height: 50vw;
+  display: flex;
+  margin: 1vw;
+  padding: 10vw 2vw 2vw 2vw;
+  position: relative;
+  overflow: clip;
+  background-image: linear-gradient(var(--aa-navy-hero), var(--aa-navy-hero));
+}
+
+/* Mobile: 50vw queda demasiado bajo para el mega heading + descripción — se relaja el
+   tope y se ajusta el padding igual que en .aa-loader-header. */
+@media screen and (max-width: 767px) {
+  .aa-landing .aa-page-heading {
+    max-height: none;
+    padding: 30vw 2vw 14vw;
+  }
+}
+
+.aa-landing .aa-page-heading__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--aa-gap-l);
+}
+
+/* Mega: abajo-derecha, como la firma del loader. Siempre sans — nunca la fuente
+   display/serif, aunque sea el heading más grande de la página. */
+.aa-landing .aa-page-heading__mega {
+  align-self: flex-end;
+  max-width: 20ch;
+  text-align: right;
+  font-family: var(--aa-font);
+  font-weight: var(--aa-weight-bold);
+  font-size: clamp(calc(var(--aa-size-font) * 4), 7vw, calc(var(--aa-size-font) * 7.5));
+  line-height: var(--aa-leading-tight);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--aa-fg);
+}
+
+.aa-landing .aa-page-heading__desc {
+  align-self: flex-start;
+  max-width: 40ch;
+  font-family: var(--aa-font);
+  font-size: var(--aa-text-m);
+  font-weight: var(--aa-weight-regular);
+  line-height: var(--aa-leading-snug);
+}
