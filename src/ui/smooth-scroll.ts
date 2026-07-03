@@ -12,8 +12,8 @@ export function initSmoothScroll(): void {
   if (prefersReducedMotion || lenis) return; // reduced-motion o ya inicializado (idempotente)
 
   lenis = new Lenis({
-    lerp: 0.165,
-    wheelMultiplier: 1.25,
+    lerp: 0.3, // más cerca del scroll nativo (casi imperceptible), pero conserva el glide/inercia
+    wheelMultiplier: 1, // velocidad nativa (sin sobre-acelerar la rueda)
   });
 
   lenis.on('scroll', ScrollTrigger.update);
