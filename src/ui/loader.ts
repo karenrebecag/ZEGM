@@ -59,7 +59,11 @@ export function initLoader(root: HTMLElement): void {
     return containerRect.bottom - cardRect.top + cardRect.height;
   };
 
+  // Acorta la duración total del loader SIN alterar las proporciones: timeScale escala
+  // uniformemente cada duración/stagger/offset del timeline (1.5 = ~33% más corto). El
+  // parallax de la cabecera es un tween aparte (ScrollTrigger), no lo afecta.
   const tl = gsap.timeline({ onComplete: finish });
+  tl.timeScale(1.5);
 
   if (has(cardsList)) {
     tl.fromTo(cardsList, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.5);
