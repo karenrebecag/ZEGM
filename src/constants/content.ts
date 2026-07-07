@@ -1,6 +1,12 @@
 // Contenido bilingüe centralizado. Cada sección lee su slice tipado por Lang.
 // Patrón: COPY[lang] → objeto con los strings de esa sección. El copy real de ZEGM
 // reemplaza estos placeholders; la SHAPE es lo que las secciones consumen.
+//
+// ⚠️ Límite de confianza (innerHTML): varios strings llevan <strong> inline para el
+// bold parcial y las secciones los inyectan con innerHTML. Es SEGURO porque todo este
+// copy es estático y de autor (nunca input de usuario). Si algún día el contenido pasa
+// a un CMS o a un endpoint, hay que sanitizar antes de inyectar (o cambiar a textContent
+// + <strong> construidos en el builder).
 import type { Lang } from '../core/types';
 
 export interface HeroCopy {
@@ -60,12 +66,14 @@ export const NAV: Record<Lang, NavLink[]> = {
   es: [
     { label: 'Home', page: 'home', anchor: 'inicio' },
     { label: 'Nosotros', page: 'nosotros', anchor: 'nosotros' },
+    { label: 'Equipo', page: 'acerca', anchor: 'acerca' },
     { label: 'Áreas y Experiencia', page: 'areas', anchor: 'areas' },
     { label: 'Contacto', page: 'contacto', anchor: 'contacto' },
   ],
   en: [
     { label: 'Home', page: 'home', anchor: 'inicio' },
     { label: 'About', page: 'nosotros', anchor: 'nosotros' },
+    { label: 'Team', page: 'acerca', anchor: 'acerca' },
     { label: 'Areas & Experience', page: 'areas', anchor: 'areas' },
     { label: 'Contact', page: 'contacto', anchor: 'contacto' },
   ],
@@ -131,6 +139,9 @@ export interface NosotrosBodyCopy {
   diffHeading: string;
   diffSub: string;
   diffBody: string[];
+  // Alt de las 2 fotos de evento reales (GALLERY.acs5950/i6a6149) — a diferencia de las
+  // fotos STOCK (placeholder genérico), estas sí son contenido informativo real.
+  galleryAlt: [string, string];
 }
 
 export const NOSOTROS_BODY: Record<Lang, NosotrosBodyCopy> = {
@@ -147,6 +158,10 @@ export const NOSOTROS_BODY: Record<Lang, NosotrosBodyCopy> = {
       'Zinser, Esponda y Gómez Mont, Abogados, se ha consolidado como una firma de referencia en la conducción de asuntos penales de alta complejidad, incluyendo procedimientos regulatorios simultáneos y estrategias coordinadas en distintas jurisdicciones.',
       'Su práctica destaca por el manejo de casos sensibles y de alto perfil, así como por la ejecución de estrategias legales orientadas a anticipar escenarios y controlar riesgos legales y reputacionales en contextos de alta exposición.',
     ],
+    galleryAlt: [
+      'Evento organizado por Zinser, Esponda y Gómez Mont, Abogados',
+      'Asistentes en un evento de Zinser, Esponda y Gómez Mont, Abogados',
+    ],
   },
   en: {
     lead: 'The firm has an extensive track record representing institutions and individuals in complex criminal cases.',
@@ -160,6 +175,10 @@ export const NOSOTROS_BODY: Record<Lang, NosotrosBodyCopy> = {
     diffBody: [
       'Zinser, Esponda y Gómez Mont, Abogados, has established itself as a reference firm in handling highly complex criminal matters, including simultaneous regulatory proceedings and coordinated strategies across different jurisdictions.',
       'Its practice stands out for handling sensitive, high-profile cases, as well as for executing legal strategies aimed at anticipating scenarios and controlling legal and reputational risks in high-exposure contexts.',
+    ],
+    galleryAlt: [
+      'Event hosted by Zinser, Esponda y Gómez Mont, Abogados',
+      'Attendees at a Zinser, Esponda y Gómez Mont, Abogados event',
     ],
   },
 };
@@ -344,8 +363,8 @@ export const EXPERIENCE: Record<Lang, ExperienceCopy> = {
 
 // Lista numerada de áreas de práctica (columna con scroll natural). `detail` es el
 // contenido del dropdown ("SABER MÁS") — placeholder, no se proveyó el detalle real
-// por área. Numeración 01-05, 07-08 tal cual se recibió (falta el 06, confirmar si es
-// intencional o quedó fuera por error).
+// por área. El área 06 se agregó con título placeholder (faltaba en la lista original):
+// reemplazar `title` con el nombre real del área 06.
 export interface PracticeAreaItem {
   number: string;
   title: string;
@@ -377,6 +396,11 @@ export const PRACTICE_AREAS: Record<Lang, PracticeAreaItem[]> = {
     {
       number: '05',
       title: 'Extradición y asistencia jurídica internacional',
+      detail: 'Placeholder — reemplazar con el detalle real de esta área de práctica.',
+    },
+    {
+      number: '06',
+      title: 'Placeholder — título del área 06 pendiente de definir.',
       detail: 'Placeholder — reemplazar con el detalle real de esta área de práctica.',
     },
     {
@@ -417,6 +441,11 @@ export const PRACTICE_AREAS: Record<Lang, PracticeAreaItem[]> = {
       detail: 'Placeholder — replace with the real detail for this practice area.',
     },
     {
+      number: '06',
+      title: 'Placeholder — practice area 06 title pending.',
+      detail: 'Placeholder — replace with the real detail for this practice area.',
+    },
+    {
       number: '07',
       title: 'Compliance and anti-corruption',
       detail: 'Placeholder — replace with the real detail for this practice area.',
@@ -427,4 +456,40 @@ export const PRACTICE_AREAS: Record<Lang, PracticeAreaItem[]> = {
       detail: 'Placeholder — replace with the real detail for this practice area.',
     },
   ],
+};
+
+// Página "Acerca de ZEGM". `proBody` e `historyBody` llevan <strong> inline para el bold
+// parcial: copy estático de confianza (sin input del usuario) → se inyecta con innerHTML.
+// La firma sobre el hero reusa el brand del footer (FOOTER.brand/brandSub), no un campo
+// propio, para que sea idéntica.
+export interface AcercaCopy {
+  heading: string;
+  proLabel: string;
+  proBody: string;
+  historyLabel: string;
+  historyBody: string;
+  teamHeading: string;
+}
+
+export const ACERCA: Record<Lang, AcercaCopy> = {
+  es: {
+    heading: 'Acerca de ZEGM',
+    proLabel: 'Profesionales',
+    proBody:
+      'El equipo está <strong>integrado por 14 abogados altamente especializados</strong>, con una sólida trayectoria en litigio penal y enfoque estratégico. Su <strong>estructura permite brindar una atención cercana y personalizada</strong>, sin comprometer el rigor técnico que exige el manejo de asuntos penales complejos.',
+    historyLabel: 'Historia',
+    historyBody:
+      'La firma fue <strong>fundada en 1992</strong> por <strong>Alberto Zinser</strong> y <strong>Julio Esponda.</strong> En 1996 se integró <strong>Fernando Francisco Gómez Mont Urueta.</strong> Posteriormente se incorporaron <strong>José Antonio López Alonso, Alejandro Hernández Oseguera</strong> y <strong>Alan Punsky Mervich</strong> como socios.',
+    teamHeading: 'Nuestro Equipo',
+  },
+  en: {
+    heading: 'About ZEGM',
+    proLabel: 'Professionals',
+    proBody:
+      'The team is <strong>made up of 14 highly specialized attorneys</strong>, with a solid track record in criminal litigation and a strategic focus. Its <strong>structure allows it to provide close, personalized attention</strong>, without compromising the technical rigor that complex criminal matters demand.',
+    historyLabel: 'History',
+    historyBody:
+      'The firm was <strong>founded in 1992</strong> by <strong>Alberto Zinser</strong> and <strong>Julio Esponda.</strong> In 1996 <strong>Fernando Francisco Gómez Mont Urueta</strong> joined. Later <strong>José Antonio López Alonso, Alejandro Hernández Oseguera</strong> and <strong>Alan Punsky Mervich</strong> came on board as partners.',
+    teamHeading: 'Our Team',
+  },
 };

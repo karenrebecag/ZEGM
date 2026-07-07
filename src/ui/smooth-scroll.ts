@@ -1,8 +1,8 @@
 // Smooth scroll con Lenis, montado sobre el ticker de GSAP y sincronizado con ScrollTrigger
-// — mismo esquema que OSMO. Un solo RAF: Lenis corre dentro de gsap.ticker, y ScrollTrigger
-// se actualiza en cada scroll virtual de Lenis (sin esto, los triggers no siguen al scroll
-// suavizado). Guard de reduced-motion: si el usuario lo pidió, no arranca y el scroll queda
-// nativo. Valores idénticos a OSMO (lerp 0.165 / wheelMultiplier 1.25 / lagSmoothing 500,33).
+// — mismo esquema que OSMO/Portfolio2026. Un solo RAF: Lenis corre dentro de gsap.ticker, y
+// ScrollTrigger se actualiza en cada scroll virtual de Lenis (sin esto, los triggers no siguen
+// al scroll suavizado). Guard de reduced-motion: si el usuario lo pidió, no arranca y el scroll
+// queda nativo.
 import Lenis from 'lenis';
 import { gsap, ScrollTrigger, prefersReducedMotion } from './gsap-env';
 
@@ -12,8 +12,8 @@ export function initSmoothScroll(): void {
   if (prefersReducedMotion || lenis) return; // reduced-motion o ya inicializado (idempotente)
 
   lenis = new Lenis({
-    lerp: 0.3, // más cerca del scroll nativo (casi imperceptible), pero conserva el glide/inercia
-    wheelMultiplier: 1, // velocidad nativa (sin sobre-acelerar la rueda)
+    lerp: 0.165, // factor de interpolación por frame: bajo = más glide/inercia (el "flotado")
+    wheelMultiplier: 1.25, // recorrido por muesca de rueda (feel del portafolio)
   });
 
   lenis.on('scroll', ScrollTrigger.update);
@@ -21,7 +21,9 @@ export function initSmoothScroll(): void {
   gsap.ticker.add((time) => {
     lenis?.raf(time * 1000);
   });
-  gsap.ticker.lagSmoothing(500, 33);
+  // lagSmoothing(0): NUNCA falsear el delta de tiempo. Con valores (500,33) un pico de frame
+  // distorsiona el tiempo que recibe el raf de Lenis → stutter/catch-up visible en el scroll.
+  gsap.ticker.lagSmoothing(0);
 }
 
 // Scroll suave a un ancla. Lenis no intercepta scrollIntoView, así que se usa lenis.scrollTo;

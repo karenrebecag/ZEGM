@@ -15,13 +15,13 @@
 }
 
 /* gap sobre cada strip: separa el par de columnas (col A / col B) dentro de la row.
-   padding-block: aire arriba/abajo del contenido dentro de cada strip. */
+   padding-block: aire arriba/abajo del contenido dentro de cada strip. Ritmo en tokens
+   rem (no vh): mantiene el spacing constante entre viewports de distinto alto. */
 .aa-landing .aa-nosotros-row {
   display: flex;
   width: 100%;
-  gap: 3vh;
-  padding-top: 4vh;
-  padding-bottom: 4vh;
+  gap: var(--aa-gap-l);
+  padding-block: var(--aa-padding-m);
   overflow: clip;
 }
 
@@ -133,7 +133,7 @@
 .aa-landing .aa-nosotros-row__imggrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3vh;
+  gap: var(--aa-gap-m);
 }
 
 /* Cada imagen autocontenida por su celda (aspect-ratio fija el alto). */

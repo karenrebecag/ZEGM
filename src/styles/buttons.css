@@ -30,6 +30,12 @@
   padding: 0;
   line-height: 1;
   text-decoration: none;
+  /* Resets UA para que la variante <button> (as:'button') se vea idéntica al <a>. */
+  border: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  text-align: inherit;
   display: inline-grid;
   position: relative;
   -webkit-tap-highlight-color: transparent;
@@ -81,12 +87,10 @@
   width: 100%;
   height: 100%;
   white-space: nowrap;
-  will-change: transform;
 }
 
 .aa-landing .aa-btn__char {
   display: inline-block;
-  will-change: filter;
 }
 
 .aa-landing .aa-btn__text.is--default .aa-btn__char {
@@ -129,11 +133,20 @@
 
 /* ─── Hover (solo con puntero fino y sin reduced-motion) ─────────────────────── */
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .aa-landing .aa-btn:is(:hover, :focus-visible) .aa-btn__bg {
-    scale: 0.955 0.925;
-    transform: scale(1.0471204188, 1.0810810811);
-    transition: scale 0.15s var(--aa-btn-ease-soft-overshoot),
-                transform 0.35s 0.15s var(--aa-btn-ease-bounce);
+  /* will-change solo mientras el puntero está sobre el botón: promueve las capas de
+     los chars justo para la animación de hover y las libera al salir (en vez de
+     mantenerlas vivas por cada letra de cada botón de la página). */
+  .aa-landing .aa-btn:is(:hover, :focus-visible) .aa-btn__char {
+    will-change: transform, filter;
+  }
+
+  /* Lift del botón completo (bg + inner/texto) en hover — feel del Portfolio2026.
+     Escala 1.065/1.095 con overshoot; en vez del jiggle-que-vuelve original, el botón
+     se queda "levantado" mientras el puntero está encima (mismo target que Button 061). */
+  .aa-landing .aa-btn:is(:hover, :focus-visible) .aa-btn__bg,
+  .aa-landing .aa-btn:is(:hover, :focus-visible) .aa-btn__inner {
+    scale: 1.065 1.095;
+    transition: scale 0.425s 0.05s var(--aa-btn-ease-bounce);
   }
 
   .aa-landing .aa-btn:is(:hover, :focus-visible) .aa-btn__text.is--default .aa-btn__char {

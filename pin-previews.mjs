@@ -5,12 +5,12 @@
 //
 // Proceso (== lo que hace el CI para calcular el tag): lee la versión actual de loader.js
 // (que el CI regenera y commitea en cada release), predice el patch+1, y reescribe el src
-// del loader en los 4 HTML a @vX.Y.Z.
+// del loader en los 5 HTML a @vX.Y.Z.
 //
 // Uso:  node pin-previews.mjs
 import { readFileSync, writeFileSync } from 'node:fs';
 
-const PAGES = ['index', 'nosotros', 'areas', 'contacto'];
+const PAGES = ['index', 'nosotros', 'areas', 'acerca', 'contacto'];
 
 const current = readFileSync('loader.js', 'utf8').match(/var v = "([^"]+)"/)?.[1];
 if (!current) {

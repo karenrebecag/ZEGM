@@ -10,7 +10,7 @@
 // El pin del loader al tag inmutable se hace antes del push con pin-previews.mjs.
 import { readFileSync, writeFileSync } from 'node:fs';
 
-const PAGES = ['index', 'nosotros', 'areas', 'contacto'];
+const PAGES = ['index', 'nosotros', 'areas', 'acerca', 'contacto'];
 
 const token = process.env.MAPBOX_TOKEN;
 if (!token) {

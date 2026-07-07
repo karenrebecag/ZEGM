@@ -10,4 +10,10 @@ export const prefersReducedMotion =
   typeof window !== 'undefined' &&
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// Timing compartido: dissolve de salida (page-transition) + beat de entrada de los
+// reveals de mount, para que la transición de página se lea como un out→in continuo.
+export const LEAVE_DURATION = 0.5;
+export const LEAVE_EASE = 'power1.in';
+export const ENTER_DELAY = 0.15;
+
 export { gsap, ScrollTrigger };

@@ -16,8 +16,8 @@ export function initMotion(root: HTMLElement): void {
     gsap.from(node, {
       ...FADE,
       delay,
-      duration: 0.8,
-      ease: 'power3.out',
+      duration: 0.9,
+      ease: 'expo.out',
       // clamp(): evita que el trigger calcule un offset inválido (negativo o más allá
       // del alto del documento) — sin esto, secciones cerca del tope o cuyo layout aún
       // no asienta pueden revelar en el punto de scroll equivocado.
@@ -28,8 +28,8 @@ export function initMotion(root: HTMLElement): void {
   $$('[data-aa-stagger]', root).forEach((group) => {
     gsap.from(Array.from(group.children), {
       ...FADE,
-      duration: 0.8,
-      ease: 'power3.out',
+      duration: 0.9,
+      ease: 'expo.out',
       stagger: 0.08,
       scrollTrigger: { trigger: group, start: 'clamp(top 85%)', once: true },
     });

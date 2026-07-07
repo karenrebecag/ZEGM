@@ -1,27 +1,15 @@
-/* Fuentes self-hosted. Las URLs son relativas a dist/landing.css (./fonts/…), y
-   esbuild copia src/fonts → dist/fonts + las marca external para conservar la URL
+/* Fuentes self-hosted en WOFF2. Las URLs son relativas a dist/landing.css (./fonts/…),
+   y esbuild copia src/fonts → dist/fonts + las marca external para conservar la URL
    literal. Self-host (no R2) porque @font-face cross-origin exige CORS y el bucket
    r2.dev no envía access-control-allow-origin. */
 
-/* DM Sans — cuerpo. */
+/* DM Sans — cuerpo. Un solo archivo variable (eje wght, opsz fijado a 18pt): cubre
+   Light(300)/Regular(400)/Bold(700) con un @font-face. Subset a charset latino ES/EN
+   + comillas tipográficas/guiones. 47 KB vs 168 KB de los tres estáticos TTF. */
 @font-face {
   font-family: 'DM Sans';
-  src: url('./fonts/DMSans_18pt-Light.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'DM Sans';
-  src: url('./fonts/DMSans_18pt-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'DM Sans';
-  src: url('./fonts/DMSans_18pt-Bold.ttf') format('truetype');
-  font-weight: 700;
+  src: url('./fonts/DMSans.woff2') format('woff2');
+  font-weight: 100 1000;
   font-style: normal;
   font-display: swap;
 }
@@ -29,7 +17,7 @@
 /* Plategt — display / títulos. */
 @font-face {
   font-family: 'Plategt';
-  src: url('./fonts/Plategt.otf') format('opentype');
+  src: url('./fonts/Plategt.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;

@@ -160,6 +160,9 @@
 }
 
 .aa-landing .aa-loader-header__firm {
+  /* margin: 0 — ahora es un <h1> (antes <p>); sin esto hereda el margin-block por
+     defecto del navegador y desalinea el space-between de .aa-loader-header__content. */
+  margin: 0;
   align-self: flex-end;
   max-width: 14em;
   font-family: var(--aa-font-display);

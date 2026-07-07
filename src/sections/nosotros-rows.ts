@@ -7,10 +7,22 @@ import { ABOUT, NOSOTROS, NOSOTROS_BODY, navHref } from '../constants/content';
 import { GALLERY, STOCK } from '../constants/assets';
 import { renderButton } from '../ui/button';
 
-function imgCell(src: string): HTMLElement {
-  const cell = el('div', 'aa-nosotros-row__imgcell');
+// El cell recorta (aspect-ratio + overflow:clip) y actúa de trigger de parallax; la
+// imagen (sobredimensionada vía .aa-parallax-target) es el target que se desplaza.
+// alt: '' para stock genérico (decorativo, sin info más allá del texto adyacente);
+// alt descriptivo para fotos reales (galería de evento).
+function imgCell(src: string, alt: string): HTMLElement {
+  const cell = el('div', 'aa-nosotros-row__imgcell', { 'data-aa-parallax': 'trigger' });
   cell.append(
-    el('img', 'aa-nosotros-row__img', { src, alt: '', loading: 'lazy', decoding: 'async' }),
+    el('img', 'aa-nosotros-row__img aa-parallax-target', {
+      src,
+      alt,
+      loading: 'lazy',
+      decoding: 'async',
+      'data-aa-parallax': 'target',
+      'data-aa-parallax-start': '8',
+      'data-aa-parallax-end': '-8',
+    }),
   );
   return cell;
 }
@@ -105,7 +117,7 @@ function renderRowThree(lang: Lang): HTMLElement {
   heading.setAttribute('data-aa-split', '');
   const sub = el('p', 'aa-p-l');
   sub.innerHTML = t.diffSub;
-  colA.append(heading, sub, imgCell(STOCK.nilov));
+  colA.append(heading, sub, imgCell(STOCK.nilov, ''));
 
   // ─── Slot 2: dos párrafos + grid de dos imágenes ──────────────────────────────
   const colB = el('div', 'aa-nosotros-row__col aa-nosotros-row__col--body');
@@ -116,7 +128,7 @@ function renderRowThree(lang: Lang): HTMLElement {
     textGroup.append(p);
   });
   const grid = el('div', 'aa-nosotros-row__imggrid');
-  grid.append(imgCell(GALLERY.acs5950), imgCell(GALLERY.i6a6149));
+  grid.append(imgCell(GALLERY.acs5950, t.galleryAlt[0]), imgCell(GALLERY.i6a6149, t.galleryAlt[1]));
   colB.append(textGroup, grid);
 
   row.append(colA, colB);

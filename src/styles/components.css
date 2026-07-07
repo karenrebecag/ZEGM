@@ -11,9 +11,36 @@
   margin-bottom: -0.1em;
 }
 
+/* Sin will-change permanente: se multiplica por palabra de cada heading (cientos de
+   capas de compositor vivas). GSAP promueve la capa durante el tween del reveal. */
 .aa-landing .aa-split-word-inner {
   display: inline-block;
-  will-change: transform;
+}
+
+/* ─── Parallax (ui/parallax.ts) ──────────────────────────────────────────────────
+   El frame recorta y ancla; el target se sobredimensiona (128% de alto, ~14% de
+   headroom por lado) para desplazarse sin dejar huecos. Rango recomendado de
+   data-aa-parallax-start/-end: ±8 (dentro del headroom). img.aa-parallax-target gana
+   especificidad sobre el height:100% de las imágenes de sección. */
+.aa-landing [data-aa-parallax='trigger'] {
+  position: relative;
+  overflow: clip;
+}
+.aa-landing img.aa-parallax-target {
+  position: absolute;
+  inset: -14% 0;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+/* Sin movimiento: el target vuelve a comportarse como imagen normal del frame. */
+@media (prefers-reduced-motion: reduce) {
+  .aa-landing img.aa-parallax-target {
+    position: static;
+    inset: auto;
+    height: 100%;
+  }
 }
 
 /* ─── transitions-dev: variables tuneables (#11 avatar hover) ──── */

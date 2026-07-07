@@ -17,12 +17,21 @@
      0,3,0). Un fixed navbar necesita fondo opaco → se pinta con background-image
      (el transparent no lo pisa). */
   background-image: linear-gradient(#ffffff, #ffffff);
+  /* Borde inferior sutil (token de marca, navy al 14%) para separar la barra del contenido. */
+  border-bottom: 1px solid var(--aa-border);
   transition: transform var(--aa-duration-s) var(--aa-ease);
 }
 
-/* Auto-hide: oculto al hacer scroll down fuera del top (initNavbar togglea la clase). */
+/* Auto-hide + estado inicial de entrada: oculto arriba (initNavbar togglea la clase). */
 .aa-landing .aa-nav.is--hidden {
   transform: translateY(-100%);
+}
+
+/* Reduced-motion: la barra aparece/oculta sin deslizamiento. */
+@media (prefers-reduced-motion: reduce) {
+  .aa-landing .aa-nav {
+    transition: none;
+  }
 }
 
 .aa-landing .aa-nav__logo {

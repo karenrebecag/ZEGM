@@ -3,7 +3,7 @@
 // transitions-dev: acá tanto el disparo (ScrollTrigger) como la animación (autoAlpha + y)
 // son GSAP, con el mismo start/clamp que motion.ts y split-text.ts, así todos los
 // reveals de la página quedan sincronizados al mismo punto de scroll.
-import { gsap, ScrollTrigger, prefersReducedMotion } from './gsap-env';
+import { gsap, ScrollTrigger, prefersReducedMotion, ENTER_DELAY } from './gsap-env';
 
 type Slot =
   | { type: 'item'; el: HTMLElement }
@@ -15,13 +15,21 @@ type Slot =
       nestedChildren: HTMLElement[];
     };
 
-const ANIM_DURATION = 0.8;
-const ANIM_EASE = 'power4.inOut';
+// expo.out (no power4.inOut): la entrada arranca rápido y asienta suave. inOut ramp-ea
+// lento al inicio → el reveal se siente pesado. expo.out es la firma del Portfolio2026.
+const ANIM_DURATION = 0.9;
+const ANIM_EASE = 'expo.out';
 
 const isElement = (node: Node): node is HTMLElement => node.nodeType === 1;
 
 export function initRevealGroup(root: HTMLElement): void {
-  root.querySelectorAll<HTMLElement>('[data-reveal-group]').forEach((groupEl) => {
+  root.querySelectorAll<HTMLElement>('[data-reveal-group]').forEach(revealGroup);
+}
+
+// Arma el reveal de UN grupo. Extraído de initRevealGroup para poder rearmarlo sobre
+// contenido inyectado async (p. ej. el grid de equipo tras el fetch al Sheet), sin
+// depender de que el elemento existiera en el DOM al momento del boot.
+export function revealGroup(groupEl: HTMLElement): void {
     const groupStaggerSec = (parseFloat(groupEl.getAttribute('data-stagger') || '100')) / 1000;
     const groupDistance = groupEl.getAttribute('data-distance') || '2em';
     // clamp(): mismo motivo que en motion.ts/split-text.ts — evita un offset inválido
@@ -49,7 +57,7 @@ export function initRevealGroup(root: HTMLElement): void {
           ease: ANIM_EASE,
           onComplete: () => gsap.set(groupEl, { clearProps: 'all' }),
         });
-      if (onMount) play();
+      if (onMount) gsap.delayedCall(ENTER_DELAY, play);
       else ScrollTrigger.create({ trigger: groupEl, start: triggerStart, once: true, onEnter: play });
       return;
     }
@@ -147,7 +155,6 @@ export function initRevealGroup(root: HTMLElement): void {
       });
     };
 
-    if (onMount) play();
+    if (onMount) gsap.delayedCall(ENTER_DELAY, play);
     else ScrollTrigger.create({ trigger: groupEl, start: triggerStart, once: true, onEnter: play });
-  });
 }

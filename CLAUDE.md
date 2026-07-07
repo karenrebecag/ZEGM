@@ -73,3 +73,18 @@ PORT=8770 npm run dev
 
 - CSS siempre `.aa-*` (nunca global) · sin secretos en el bundle · comentarios = WHY · sin emojis.
 - Push / deploy son operaciones bloqueadas: pedir OK explícito.
+
+## Scoping CSS — nota de sostenibilidad
+
+Todos los selectores llevan el prefijo `.aa-landing` a mano (~230 reglas). Es la garantía
+de aislamiento contra el host (Elementor), pero depende de la disciplina: un selector sin
+prefijo se fuga al host globalmente. Si el proyecto crece, evaluar forzar el scope en build
+(`postcss-prefixwrap`) o migrar a `@scope { … }` nativo — así el aislamiento deja de ser
+manual. Por ahora se mantiene el prefijo explícito (cero dependencias nuevas).
+
+## Fuentes
+
+Self-hosted en `src/fonts/` como WOFF2. DM Sans es un único archivo VARIABLE (eje wght
+100–1000, opsz fijado a 18pt, subset latino ES/EN) → un `@font-face` cubre 300/400/700.
+Para regenerar tras cambiar charset/pesos: `fontTools varLib.instancer` + `fontTools.subset`
+con `--flavor=woff2` (requiere `woff2`/`fontTools`, no son deps del proyecto).

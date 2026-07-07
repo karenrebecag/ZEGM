@@ -5,7 +5,7 @@
 export function initAccordion(root: HTMLElement): void {
   root.querySelectorAll<HTMLElement>('[data-aa-accordion-toggle]').forEach((toggle) => {
     toggle.addEventListener('click', (e) => {
-      e.preventDefault(); // el toggle puede ser un <a> (renderButton) — no navega, solo abre/cierra
+      e.preventDefault(); // toggle es <button type="button"> (renderButton as:'button'); no-op en <a> si algún día se usa uno
       const item = toggle.closest<HTMLElement>('[data-aa-accordion-item]');
       if (!item) return;
       const isOpen = item.hasAttribute('data-open');

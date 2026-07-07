@@ -28,7 +28,8 @@ export function renderPracticeAreas(root: HTMLElement, lang: Lang): void {
     title.textContent = item.title;
 
     const panelId = `aa-practice-area-${index}`;
-    const toggle = renderButton('Saber más', { variant: 'tertiary' });
+    // Toggle del accordion → <button> real (no navega): semántica y a11y correctas.
+    const toggle = renderButton('Saber más', { variant: 'tertiary', as: 'button' });
     toggle.classList.add('aa-practice-areas__toggle');
     toggle.setAttribute('data-aa-accordion-toggle', '');
     toggle.setAttribute('aria-expanded', 'false');

@@ -1,0 +1,169 @@
+/* Página "Acerca de ZEGM": heading sans + dos bloques de columnas 50/50 y una banda
+   hero de 200px. Mismo max-width y padding-inline que el resto de strips (--aa-container-*).
+   Todo scopeado a .aa-landing para no fugarse al host. */
+
+.aa-landing .aa-acerca__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aa-gap-xl);
+  width: 100%;
+  max-width: var(--aa-container-max);
+  margin-inline: auto;
+  padding-inline: var(--aa-container-pad);
+  padding-block: var(--aa-padding-m);
+}
+
+/* Acerca NO usa serif: override de la fuente display a sans en el heading (igual que
+   Services). El texto ya llega en la caja deseada desde el copy. */
+.aa-landing .aa-acerca .aa-h-xl {
+  font-family: var(--aa-font);
+}
+
+/* ─── Filas de dos columnas 50/50 ─────────────────────────────────────────────── */
+.aa-landing .aa-acerca__row {
+  display: flex;
+  gap: var(--aa-gap-l);
+}
+
+.aa-landing .aa-acerca__col {
+  flex: 1 1 50%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--aa-gap-s);
+}
+
+/* Label bold pequeño (Profesionales / Historia). El cuerpo (.aa-p-l) queda muted; el
+   label pisa con el fg pleno para jerarquía. */
+.aa-landing .aa-acerca__label {
+  font-family: var(--aa-font);
+  font-size: var(--aa-text-xs);
+  font-weight: var(--aa-weight-bold);
+  color: var(--aa-fg);
+}
+
+/* El <strong> dentro del cuerpo comparte el bold del label y sube al fg pleno. */
+.aa-landing .aa-acerca__body strong {
+  font-weight: var(--aa-weight-bold);
+  color: var(--aa-fg);
+}
+
+/* Columna del label "Historia": alineado abajo-izquierda sobre la columna. */
+.aa-landing .aa-acerca__col--label {
+  justify-content: flex-end;
+  align-items: flex-start;
+  text-align: left;
+}
+
+/* ─── Banda hero (alto fijo 200px) + firma centrada ───────────────────────────── */
+.aa-landing .aa-acerca__banner {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  margin: 0;
+  overflow: clip;
+}
+
+.aa-landing .aa-acerca__banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Scrim para garantizar contraste del texto blanco sobre la foto (WCAG AA). */
+.aa-landing .aa-acerca__banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+
+/* La firma reusa .aa-footer__brand (flex column centrado + tipografía display). Aquí solo
+   la posicionamos: absoluta sobre la foto y centrada en vertical. El color lo aporta el
+   tema dark del figure (remapea --aa-fg a claro). */
+.aa-landing .aa-acerca__banner-caption {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  justify-content: center;
+  padding-inline: var(--aa-gap-m);
+  text-align: center;
+}
+
+/* ─── "Nuestro Equipo": grid de abogados ──────────────────────────────────────── */
+.aa-landing .aa-team__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--aa-gap-m);
+}
+
+.aa-landing .aa-team__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--aa-gap-xs);
+}
+
+/* Foto cuadrada 1:1: el wrap fija el ratio y recorta; la imagen llena el 100% y se recorta
+   con cover → todas las cards miden exactamente lo mismo sin importar el tamaño original. */
+.aa-landing .aa-team__pic-wrap {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: clip;
+  background: var(--aa-bg-subtle);
+}
+
+.aa-landing .aa-team__pic {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Avatar de respaldo (iniciales) mientras no haya foto en el Sheet: llena el mismo 1:1. */
+.aa-landing .aa-team__pic-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--aa-bg-subtle);
+  color: var(--aa-fg-subtle);
+  font-family: var(--aa-font-display);
+  font-size: var(--aa-text-l);
+  letter-spacing: 0.04em;
+}
+
+.aa-landing .aa-team__name {
+  font-family: var(--aa-font);
+  font-size: var(--aa-text-s);
+  font-weight: var(--aa-weight-regular);
+  color: var(--aa-fg);
+}
+.aa-landing .aa-team__name strong {
+  font-weight: var(--aa-weight-bold);
+}
+
+/* ─── Mobile: columnas apiladas + grid a menos columnas ───────────────────────── */
+@media screen and (max-width: 767px) {
+  .aa-landing .aa-acerca__row {
+    flex-direction: column;
+  }
+  .aa-landing .aa-team__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  /* Al hacer wrap (menos columnas que el layout ancho de 3) se llenan todas las celdas:
+     los spacers aleatorios se ocultan. */
+  .aa-landing .aa-team__spacer {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .aa-landing .aa-team__grid {
+    grid-template-columns: 1fr;
+  }
+}

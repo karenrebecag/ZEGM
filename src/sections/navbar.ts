@@ -7,7 +7,9 @@ import { LOGOS } from '../constants/assets';
 import { renderButton } from '../ui/button';
 
 export function renderNavbar(root: HTMLElement, lang: Lang, page: string): void {
-  const nav = el('nav', 'aa-nav', { 'data-aa-section-theme': 'light' });
+  // Arranca oculto (is--hidden = translateY -100%); initNavbar lo revela al montar
+  // (bajando suave vía la transition base), tras el loader en home.
+  const nav = el('nav', 'aa-nav is--hidden', { 'data-aa-section-theme': 'light' });
 
   // El logo lleva al home (o al top del home si ya estamos ahí).
   const homeHref = navHref({ page: 'home', anchor: 'inicio' }, page);
