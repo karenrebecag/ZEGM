@@ -1,11 +1,13 @@
 // Página de contacto: grid de 4 slots (intro top-left · 2 y 3 vacíos · datos abajo-der)
-// + mapa Mapbox full-width. Mismo lenguaje que la home (sans, navy sobre blanco).
+// + mapa Google Maps (iframe embed) full-width. Mismo lenguaje que la home (sans, navy
+// sobre blanco).
 import type { Lang } from '../core/types';
 import { el } from '../core/dom';
 import { CONTACT } from '../constants/content';
 
-// Coordenadas de Sierra Nevada 156, Lomas de Chapultepec (el mapa lo monta initMapbox).
-const MAP = { lat: '19.4265737', lng: '-99.2075335', zoom: '15' };
+// Embed de Sierra Nevada 156, Lomas de Chapultepec.
+const MAP_EMBED_SRC =
+  'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5100.184287064595!2d-99.20753350000001!3d19.426573699999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d201f43364b375%3A0x663e4d06cc5a487b!2sSierra%20Nevada%20156%2C%20Lomas%20-%20Virreyes%2C%20Lomas%20de%20Chapultepec%2C%20Miguel%20Hidalgo%2C%2011000%20Ciudad%20de%20M%C3%A9xico%2C%20CDMX!5e1!3m2!1ses-419!2smx!4v1783714103756!5m2!1ses-419!2smx';
 
 export function renderContact(root: HTMLElement, lang: Lang): void {
   const t = CONTACT[lang];
@@ -54,16 +56,17 @@ export function renderContact(root: HTMLElement, lang: Lang): void {
   grid.append(slot1, slot2, slot3, slot4);
   inner.append(grid);
 
-  // Mapa Mapbox full-width (lo monta initMapbox; el token llega por atributo del mount).
-  const map = el('div', 'aa-contact__map', {
-    'data-aa-section-theme': 'dark',
-    'data-aa-map': '',
-    'data-aa-map-lat': MAP.lat,
-    'data-aa-map-lng': MAP.lng,
-    'data-aa-map-zoom': MAP.zoom,
-    role: 'img',
-    'aria-label': t.mapTitle,
-  });
+  // Mapa Google Maps full-width (embed estático, sin token/JS de por medio).
+  const map = el('div', 'aa-contact__map', { 'data-aa-section-theme': 'dark' });
+  map.append(
+    el('iframe', 'aa-contact__map-frame', {
+      src: MAP_EMBED_SRC,
+      title: t.mapTitle,
+      loading: 'lazy',
+      referrerpolicy: 'strict-origin-when-cross-origin',
+      allowfullscreen: '',
+    }),
+  );
 
   section.append(inner, map);
   root.append(section);

@@ -143,6 +143,15 @@
     --aa-padding-xxl: 4rem;
     --aa-padding-xl:  3rem;
     --aa-padding-l:   2rem;
+    /* Aumentar tipografía en mobile: 50% más en los mínimos del clamp */
+    --aa-text-xxl: clamp(calc(var(--aa-size-font) * 4.5), 5vw, calc(var(--aa-size-font) * 5.5));
+    --aa-text-xl:  clamp(calc(var(--aa-size-font) * 3.375), 4vw, calc(var(--aa-size-font) * 4));
+    --aa-text-l:   clamp(calc(var(--aa-size-font) * 2.625), 3vw, calc(var(--aa-size-font) * 2.75));
+    --aa-text-ml:  clamp(calc(var(--aa-size-font) * 2.25), 2.5vw, calc(var(--aa-size-font) * 2.25));
+    --aa-text-m:   clamp(calc(var(--aa-size-font) * 1.875), 2vw, calc(var(--aa-size-font) * 1.75));
+    --aa-text-s:   clamp(calc(var(--aa-size-font) * 1.5), 1.5vw, calc(var(--aa-size-font) * 1.25));
+    --aa-text-xs:  calc(var(--aa-size-font) * 1.3);
+    --aa-text-xxs: calc(var(--aa-size-font) * 1.125);
   }
 }
 

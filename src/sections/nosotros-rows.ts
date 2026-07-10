@@ -7,36 +7,31 @@ import { ABOUT, NOSOTROS, NOSOTROS_BODY, navHref } from '../constants/content';
 import { GALLERY, STOCK } from '../constants/assets';
 import { renderButton } from '../ui/button';
 
-// El cell recorta (aspect-ratio + overflow:clip) y actúa de trigger de parallax; la
-// imagen (sobredimensionada vía .aa-parallax-target) es el target que se desplaza.
+// El cell recorta (aspect-ratio + overflow:clip); la imagen llena la celda vía
+// object-fit: cover (sin parallax).
 // alt: '' para stock genérico (decorativo, sin info más allá del texto adyacente);
 // alt descriptivo para fotos reales (galería de evento).
 function imgCell(src: string, alt: string): HTMLElement {
-  const cell = el('div', 'aa-nosotros-row__imgcell', { 'data-aa-parallax': 'trigger' });
+  const cell = el('div', 'aa-nosotros-row__imgcell');
   cell.append(
-    el('img', 'aa-nosotros-row__img aa-parallax-target', {
+    el('img', 'aa-nosotros-row__img', {
       src,
       alt,
       loading: 'lazy',
       decoding: 'async',
-      'data-aa-parallax': 'target',
-      'data-aa-parallax-start': '8',
-      'data-aa-parallax-end': '-8',
     }),
   );
   return cell;
 }
 
-// Row 1: imagen (col A) + heading uppercase + copy real de ABOUT (col B). No hay foto de
-// despacho/equipo en el catálogo aún — se usa STOCK.lawyers (temática más cercana) como
-// placeholder hasta tener el asset real.
+// Row 1: imagen (col A) + heading uppercase + copy real de ABOUT (col B).
 function renderRowOne(lang: Lang): HTMLElement {
   const t = NOSOTROS[lang];
   const row = el('div', 'aa-nosotros-row', { 'data-reveal-group': 'mount' });
 
   const colA = el('div', 'aa-nosotros-row__col aa-nosotros-row__col--img');
   const img = el('img', 'aa-nosotros-row__img', {
-    src: STOCK.lawyers,
+    src: STOCK.lawyersRow1,
     alt: '',
     loading: 'lazy',
     decoding: 'async',
@@ -79,7 +74,7 @@ function renderRowTwo(lang: Lang): HTMLElement {
   const imgSlot = el('div', 'aa-nosotros-row__col aa-nosotros-row__col--img');
   imgSlot.append(
     el('img', 'aa-nosotros-row__img', {
-      src: STOCK.nilov,
+      src: STOCK.nilovRow2,
       alt: '',
       loading: 'lazy',
       decoding: 'async',
@@ -105,7 +100,7 @@ function renderRowTwo(lang: Lang): HTMLElement {
 }
 
 // Row 3. Slot 1: heading uppercase + subheading. Slot 2: dos párrafos + grid de dos
-// imágenes (cada una autocontenida por su celda). Imágenes de galería como placeholder.
+// imágenes (cada una autocontenida por su celda).
 function renderRowThree(lang: Lang): HTMLElement {
   const t = NOSOTROS_BODY[lang];
   const row = el('div', 'aa-nosotros-row', { 'data-reveal-group': 'mount' });
@@ -117,7 +112,7 @@ function renderRowThree(lang: Lang): HTMLElement {
   heading.setAttribute('data-aa-split', '');
   const sub = el('p', 'aa-p-l');
   sub.innerHTML = t.diffSub;
-  colA.append(heading, sub, imgCell(STOCK.nilov, ''));
+  colA.append(heading, sub, imgCell(STOCK.nilovRow3, ''));
 
   // ─── Slot 2: dos párrafos + grid de dos imágenes ──────────────────────────────
   const colB = el('div', 'aa-nosotros-row__col aa-nosotros-row__col--body');
@@ -128,7 +123,7 @@ function renderRowThree(lang: Lang): HTMLElement {
     textGroup.append(p);
   });
   const grid = el('div', 'aa-nosotros-row__imggrid');
-  grid.append(imgCell(GALLERY.acs5950, t.galleryAlt[0]), imgCell(GALLERY.i6a6149, t.galleryAlt[1]));
+  grid.append(imgCell(GALLERY.acs5950Row3, t.galleryAlt[0]), imgCell(GALLERY.i6a6149Row3, t.galleryAlt[1]));
   colB.append(textGroup, grid);
 
   row.append(colA, colB);

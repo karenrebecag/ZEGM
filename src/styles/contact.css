@@ -91,9 +91,8 @@
   text-decoration: underline;
 }
 
-/* Mapa Mapbox full-width. El contenedor necesita altura para que el canvas renderice;
-   el estilo/tinte navy se controla desde Mapbox (dark-v11 por defecto o un estilo
-   propio de Mapbox Studio). */
+/* Mapa Google Maps (iframe embed) full-width. El contenedor fija la altura; el iframe
+   llena el 100% (el estilo del mapa en sí lo controla Google, no hay tinte custom). */
 .aa-landing .aa-contact__map {
   position: relative;
   width: 100%;
@@ -101,6 +100,14 @@
   min-height: 320px;
   background-color: var(--aa-navy-950);
   overflow: hidden;
+}
+
+.aa-landing .aa-contact__map-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 
 /* Mobile: 1 columna; más clearance del navbar arriba. */

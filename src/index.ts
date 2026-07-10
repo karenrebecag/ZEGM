@@ -21,7 +21,6 @@ import { renderPracticeAreas } from './sections/practice-areas';
 import { renderNosotrosRows } from './sections/nosotros-rows';
 import { renderAcerca } from './sections/acerca';
 import { renderFooter } from './sections/footer';
-import { initMapbox } from './ui/mapbox';
 import { initSplitText } from './ui/split-text';
 import { watchLayoutShifts } from './ui/scroll-refresh';
 import { initRevealGroup } from './ui/reveal-group';
@@ -104,13 +103,6 @@ const PAGE_RENDERERS: Record<Page, (root: HTMLElement, lang: Lang) => void> = {
   contacto: renderContact,
 };
 
-// Token público de Mapbox: atributo del mount (host) — nunca en el repo. ?mbtoken= lo
-// sobreescribe (solo dev/preview). Su protección real es la URL restriction en Mapbox.
-function resolveMapToken(raw: string | undefined): string | undefined {
-  const urlToken = new URLSearchParams(window.location.search).get('mbtoken');
-  return urlToken ?? raw ?? undefined;
-}
-
 function boot(): void {
   // Navegación fresca: no restaurar scroll ni honrar un #anchor de otra página en el
   // page-load — cada página monta desde el top. Así el navbar (que se muestra en el top)
@@ -128,7 +120,6 @@ function boot(): void {
     const theme = resolveTheme(mount.dataset.aaTheme);
     const lang = resolveLang(mount.dataset.aaLang);
     const page = resolvePage(mount.dataset.aaPage);
-    const mapToken = resolveMapToken(mount.dataset.aaMapboxToken);
 
     // title/meta description/JSON-LD: piso mínimo mientras el host no diferencie el
     // <head> por página (las 5 páginas comparten el mismo bundle).
@@ -167,7 +158,6 @@ function boot(): void {
           if (overlay) overlay.style.display = 'none';
         });
     }
-    initMapbox(root, mapToken);
     initSplitText(root);
     initRevealGroup(root);
     initParallax(root);
