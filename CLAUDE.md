@@ -1,7 +1,7 @@
 # zegm-web
 
-Sitio ZEGM versionado. **El host (Elementor/CMS) solo aporta un punto de montaje.**
-Lógica + estilos vía jsDelivr. Build: esbuild + TypeScript + GSAP. Sin React/Tailwind.
+Sitio ZEGM. **El host (Elementor/CMS) solo aporta un punto de montaje.**
+Lógica + estilos servidos desde Vercel (estático). Build: esbuild + TypeScript + GSAP. Sin React/Tailwind.
 
 Arquitectura scaffoldeada desde el patrón "Mount Point Pattern" de `ATFX_PeruLP`.
 
@@ -10,7 +10,7 @@ Arquitectura scaffoldeada desde el patrón "Mount Point Pattern" de `ATFX_PeruLP
 ```
 Host (widget HTML)
   └─ <div data-aa-mount data-aa-theme="light" data-aa-lang="es"></div>
-  └─ <script src=".../loader.js"></script>   → inyecta dist/landing.css + dist/landing.js
+  └─ <script src=".../loader.js"></script>   → inyecta dist/assets/landing.[hash].css + .js
         └─ boot() en src/index.ts: lee atributos del mount, crea .aa-landing, renderiza secciones
 ```
 
@@ -21,7 +21,7 @@ Host (widget HTML)
 - **UI/átomos** = `src/ui/*.ts`. GSAP centralizado en `src/ui/gsap-env.ts`.
 - **Estilos** = `src/styles/*.css`, agregados por `landing.css` (entry con `@import`).
 - **Constantes/contenido** = `src/constants/*.ts` (bilingüe `Record<Lang, {...}>`).
-- Build: `esbuild.config.mjs` → `dist/landing.js` + `dist/landing.css`.
+- Build: `esbuild.config.mjs` → `dist/assets/landing.[hash].js` (+ chunks) + `dist/assets/styles.[hash].css`.
 
 ## Estructura actual (esqueleto)
 
@@ -62,12 +62,16 @@ npm run build
 PORT=8770 npm run dev
 ```
 
-## Deploy (jsDelivr)
+## Deploy (Vercel)
 
-- El repo debe ser **público** y llamarse EXACTO como en `loader.js` (`/gh/<owner>/<repo>`).
-  Hoy: `karenrebecag/ZEGM_web`. Si el repo real difiere, cambiar `loader.js` e `index.ts`.
-- `loader.js` `@latest` inyecta el tag inmutable `@vX.Y.Z`.
-- Falta wirear CI (`.github/workflows/release.yml`) para auto-tag si se quiere el flujo de PeruLP.
+- `git push main` → Vercel corre `npm run build` (== `node esbuild.config.mjs`) y sirve `dist/`.
+- El build emite `dist/assets/landing.[hash].{js,css}` (+ chunks) y **genera** `dist/loader.js`
+  con esos nombres ya resueltos + auto-localizado (`document.currentScript`). Assets inmutables;
+  `loader.js` cachea 5 min (`vercel.json`). Cero tags, cero CI, cero purga.
+- El build copia las 5 páginas de preview a `dist/` (demo hosteada) e inyecta el token de Mapbox
+  desde la env `MAPBOX_TOKEN` en el deploy. Configurar esa env en el proyecto Vercel.
+- `dist/` está gitignoreado (lo construye Vercel). No editar `loader.js` a mano: es generado.
+- Embed en el host: `<script src="https://<proyecto>.vercel.app/loader.js" data-cfasync="false">`.
 
 ## Reglas de operación
 

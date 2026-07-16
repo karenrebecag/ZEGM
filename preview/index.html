@@ -14,10 +14,8 @@
   </style>
 </head>
 <body>
-  <!-- Embed idéntico al del host: un mount + el loader de jsDelivr. El src del loader se
-       pinnea al tag del release con pin-previews.mjs (correr antes de push). -->
+  <!-- Embed idéntico al del host: un mount + el loader mismo-origen. -->
   <div data-aa-mount data-aa-theme="light" data-aa-lang="es" data-aa-page="home"></div>
-  <script data-cfasync="false"
-    src="https://cdn.jsdelivr.net/gh/karenrebecag/ZEGM@v1.0.6/loader.js"></script>
+  <script src="./loader.js" data-cfasync="false"></script>
 </body>
 </html>

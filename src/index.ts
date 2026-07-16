@@ -1,9 +1,6 @@
 // Entry point. Cada punto de montaje declara su configuración por atributos:
 //   <div data-aa-mount data-aa-theme="light|dark" data-aa-lang="es|en"></div>
-//   <script data-cfasync="false"
-//     src="https://cdn.jsdelivr.net/gh/karenrebecag/ZEGM@latest/loader.js"></script>
-const _v = document.querySelector<HTMLScriptElement>('script[src*="ZEGM@"]')?.src.match(/ZEGM@([^/]+)/)?.[1] ?? 'dev';
-console.log(`[zegm-web] v${_v} loaded`);
+//   <script data-cfasync="false" src="https://<proyecto>.vercel.app/loader.js"></script>
 
 import { type Theme, type Lang, type Page, PAGES } from './core/types';
 import { AREAS } from './constants/content';
